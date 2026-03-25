@@ -12,23 +12,33 @@ public class Library
         Patrons = new List<Person>();
     }
 
+    public void AddBook(Book book)
+    {
+        Books.Add(book);
+    }
+
+    public void AddPatron(Person person)
+    {
+        Patrons.Add(person);
+    }
+
     public void DisplayBooks()
     {
         Console.WriteLine("Books in Library:");
-
-        foreach (var book in Books)
+        foreach (Book book in Books)
         {
             Console.WriteLine($"Title: {book.Title}, Author: {book.Author}, Available Copies: {book.AvailableCopies}");
         }
+        Console.WriteLine();
     }
 
     public void DisplayPatrons()
     {
         Console.WriteLine("Patrons in Library:");
-
-        foreach (var p in Patrons)
+        foreach (Person patron in Patrons)
         {
-            Console.WriteLine($"Name: {p.Name}, ID: {p.ID}");
+            Console.WriteLine($"Name: {patron.Name}, ID: {patron.ID}");
         }
+        Console.WriteLine();
     }
 }
