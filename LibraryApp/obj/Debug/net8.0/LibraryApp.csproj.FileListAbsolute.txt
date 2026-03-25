@@ -1,0 +1,5 @@
+/Users/izaacmartinez/Documents/GitHub/ISM6225_Group_-2-/LibraryApp/obj/Debug/net8.0/LibraryApp.GeneratedMSBuildEditorConfig.editorconfig
+/Users/izaacmartinez/Documents/GitHub/ISM6225_Group_-2-/LibraryApp/obj/Debug/net8.0/LibraryApp.AssemblyInfoInputs.cache
+/Users/izaacmartinez/Documents/GitHub/ISM6225_Group_-2-/LibraryApp/obj/Debug/net8.0/LibraryApp.AssemblyInfo.cs
+/Users/izaacmartinez/Documents/GitHub/ISM6225_Group_-2-/LibraryApp/obj/Debug/net8.0/LibraryApp.csproj.CoreCompileInputs.cache
+/Users/izaacmartinez/Documents/GitHub/ISM6225_Group_-2-/LibraryApp/obj/Debug/net8.0/LibraryApp.sourcelink.json
