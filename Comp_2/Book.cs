@@ -1,5 +1,3 @@
-using System;
-
 public class Book
 {
     public string Title { get; set; }
@@ -7,24 +5,26 @@ public class Book
     public string ISBN { get; set; }
     public int AvailableCopies { get; set; }
 
-    public Book(string title, string author, string isbn, int copies)
+    public Book(string title, string author, string isbn, int availableCopies)
     {
         Title = title;
         Author = author;
         ISBN = isbn;
-        AvailableCopies = copies;
+        AvailableCopies = availableCopies;
     }
 
-    public void BorrowBook(string borrowerName)
+    public bool BorrowBook()
     {
         if (AvailableCopies > 0)
         {
             AvailableCopies--;
-            Console.WriteLine($"{borrowerName} borrowed '{Title}'");
+            return true;
         }
-        else
-        {
-            Console.WriteLine($"Sorry, '{Title}' is not available.");
-        }
+        return false;
+    }
+
+    public void ReturnBook()
+    {
+        AvailableCopies++;
     }
 }
