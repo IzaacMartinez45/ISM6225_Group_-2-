@@ -1,8 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "QlIBqOJKcSI=",
+  "dgSpecHash": "lAd5JQTJrJg=",
   "success": true,
   "projectFilePath": "/Users/izaacmartinez/Documents/GitHub/ISM6225_Group_-2-/LibraryApp/LibraryApp.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "/Users/izaacmartinez/.nuget/packages/microsoft.netcore.app.ref/8.0.25/microsoft.netcore.app.ref.8.0.25.nupkg.sha512",
+    "/Users/izaacmartinez/.nuget/packages/microsoft.aspnetcore.app.ref/8.0.25/microsoft.aspnetcore.app.ref.8.0.25.nupkg.sha512",
+    "/Users/izaacmartinez/.nuget/packages/microsoft.netcore.app.host.osx-arm64/8.0.25/microsoft.netcore.app.host.osx-arm64.8.0.25.nupkg.sha512"
+  ],
   "logs": []
 }
