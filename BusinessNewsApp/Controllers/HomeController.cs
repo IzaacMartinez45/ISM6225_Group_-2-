@@ -53,5 +53,10 @@ namespace BusinessNewsApp.Controllers
 
             return View(newsList);
         }
+
+        public IActionResult Privacy()
+        {
+            return View();
+        }
     }
 }

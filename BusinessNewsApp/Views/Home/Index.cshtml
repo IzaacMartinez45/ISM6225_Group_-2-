@@ -4,15 +4,27 @@
     ViewData["Title"] = "Business News";
 }
 
-<h1>Top U.S. Business Headlines</h1>
+<section class="news-page">
+    <h1 class="news-title">Top U.S. Business Headlines</h1>
+    <p class="news-subtitle">Latest business stories from major U.S. sources.</p>
 
-@foreach (var article in Model)
-{
-    <p><strong>Source:</strong> @article.SourceName</p>
-    <p><strong>Title:</strong> @article.Title</p>
-    <p>
-        <strong>URL:</strong>
-        <a href="@article.Url" target="_blank">@article.Url</a>
-    </p>
-    <hr />
-}
+    @if (Model == null || !Model.Any())
+    {
+        <div class="alert alert-light border" role="alert">
+            No headlines are available right now. Please try again shortly.
+        </div>
+    }
+    else
+    {
+        @foreach (var article in Model)
+        {
+            <article class="news-item">
+                <p class="mb-2"><span class="news-label">Source:</span> @article.SourceName</p>
+                <h2 class="news-item-title">@article.Title</h2>
+                <a class="news-link" href="@article.Url" target="_blank" rel="noopener noreferrer">
+                    Read full article
+                </a>
+            </article>
+        }
+    }
+</section>
