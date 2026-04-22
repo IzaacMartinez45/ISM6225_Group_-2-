@@ -1,8 +1,18 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@model List<BusinessNewsApp.Models.NewsArticle>
+
+@{
+    ViewData["Title"] = "Business News";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<h1>Top U.S. Business Headlines</h1>
+
+@foreach (var article in Model)
+{
+    <p><strong>Source:</strong> @article.SourceName</p>
+    <p><strong>Title:</strong> @article.Title</p>
+    <p>
+        <strong>URL:</strong>
+        <a href="@article.Url" target="_blank">@article.Url</a>
+    </p>
+    <hr />
+}
