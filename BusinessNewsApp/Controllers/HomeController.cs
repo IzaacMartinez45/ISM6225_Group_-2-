@@ -1,24 +1,53 @@
-using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using BusinessNewsApp.Models;
+using System.Text.Json;
 
-namespace BusinessNewsApp.Controllers;
-
-public class HomeController : Controller
+namespace BusinessNewsApp.Controllers
 {
-    public IActionResult Index()
+    public class HomeController : Controller
     {
-        return View();
-    }
+        private readonly IConfiguration _configuration;
 
-    public IActionResult Privacy()
-    {
-        return View();
-    }
+        public HomeController(IConfiguration configuration)
+        {
+            _configuration = configuration;
+        }
 
-    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-    public IActionResult Error()
-    {
-        return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        public async Task<IActionResult> Index()
+        {
+            List<NewsArticle> newsList = new List<NewsArticle>();
+
+            string apiKey = _configuration["NewsApi:ApiKey"];
+            string endpoint = $"https://newsapi.org/v2/top-headlines?country=us&category=business&apiKey={apiKey}";
+
+            using (HttpClient client = new HttpClient())
+            {
+                HttpResponseMessage response = await client.GetAsync(endpoint);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    string json = await response.Content.ReadAsStringAsync();
+
+                    var options = new JsonSerializerOptions
+                    {
+                        PropertyNameCaseInsensitive = true
+                    };
+
+                    NewsApiResponse apiResponse = JsonSerializer.Deserialize<NewsApiResponse>(json, options);
+
+                    if (apiResponse?.Articles != null)
+                    {
+                        newsList = apiResponse.Articles.Select(article => new NewsArticle
+                        {
+                            SourceName = article.Source?.Name,
+                            Title = article.Title,
+                            Url = article.Url
+                        }).ToList();
+                    }
+                }
+            }
+
+            return View(newsList);
+        }
     }
 }
