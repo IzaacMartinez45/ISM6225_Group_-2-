@@ -22,12 +22,16 @@ namespace BusinessNewsApp.Controllers
 
             using (HttpClient client = new HttpClient())
             {
+                client.DefaultRequestHeaders.Add("User-Agent", "BusinessNewsApp");
+
                 HttpResponseMessage response = await client.GetAsync(endpoint);
+                string json = await response.Content.ReadAsStringAsync();
+
+                ViewBag.RawJson = json;
+                ViewBag.StatusCode = (int)response.StatusCode;
 
                 if (response.IsSuccessStatusCode)
                 {
-                    string json = await response.Content.ReadAsStringAsync();
-
                     var options = new JsonSerializerOptions
                     {
                         PropertyNameCaseInsensitive = true
@@ -35,7 +39,7 @@ namespace BusinessNewsApp.Controllers
 
                     NewsApiResponse apiResponse = JsonSerializer.Deserialize<NewsApiResponse>(json, options);
 
-                    if (apiResponse?.Articles != null)
+                    if (apiResponse != null && apiResponse.Articles != null)
                     {
                         newsList = apiResponse.Articles.Select(article => new NewsArticle
                         {

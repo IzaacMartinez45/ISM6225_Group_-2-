@@ -6,6 +6,13 @@
 
 <h1>Top U.S. Business Headlines</h1>
 
+<p><strong>Status Code:</strong> @ViewBag.StatusCode</p>
+
+<p><strong>Raw JSON Response:</strong></p>
+<pre>@ViewBag.RawJson</pre>
+
+<hr />
+
 @foreach (var article in Model)
 {
     <p><strong>Source:</strong> @article.SourceName</p>
