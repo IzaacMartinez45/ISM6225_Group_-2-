@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("BusinessNewsApp")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+97899b6196334c63feb2c6f45cec73f1fb8f5e98")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+cc006d6e968f1f66ce34fa09b2c1f8bcc8ed05f6")]
 [assembly: System.Reflection.AssemblyProductAttribute("BusinessNewsApp")]
 [assembly: System.Reflection.AssemblyTitleAttribute("BusinessNewsApp")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

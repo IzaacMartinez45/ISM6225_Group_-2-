@@ -5,24 +5,36 @@
 }
 
 <section class="news-page">
-    <h1 class="news-title">Top U.S. Business Headlines</h1>
-    <p class="news-subtitle">Latest business stories from major U.S. sources.</p>
+    <div class="news-header">
+        <h1 class="news-title">Top U.S. Business Headlines</h1>
+        <p class="news-subtitle">Latest business stories from major U.S. sources.</p>
+        @if (Model != null && Model.Any())
+        {
+            <span class="news-count">@Model.Count articles</span>
+        }
+    </div>
 
     @if (Model == null || !Model.Any())
     {
-        <div class="alert alert-light border" role="alert">
-            No headlines are available right now. Please try again shortly.
+        <div class="news-empty">
+            <div class="news-empty-icon">&#128240;</div>
+            <p>No headlines are available right now. Please try again shortly.</p>
         </div>
     }
     else
     {
+        int index = 0;
         @foreach (var article in Model)
         {
+            index++;
             <article class="news-item">
-                <p class="mb-2"><span class="news-label">Source:</span> @article.SourceName</p>
+                <div class="news-item-header">
+                    <span class="news-item-number">@index</span>
+                    <span class="news-source-badge">@article.SourceName</span>
+                </div>
                 <h2 class="news-item-title">@article.Title</h2>
                 <a class="news-link" href="@article.Url" target="_blank" rel="noopener noreferrer">
-                    Read full article
+                    Read full article <span class="news-link-arrow">&rarr;</span>
                 </a>
             </article>
         }
