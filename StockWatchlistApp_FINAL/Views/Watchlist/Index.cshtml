@@ -1,0 +1,99 @@
+@model List<(StockWatchlistApp.Models.WatchlistStock Stock, StockWatchlistApp.Models.StockApiData ApiData)>
+
+@{
+    ViewData["Title"] = "Stock Watchlist";
+}
+
+<div class="hero-section">
+    <h1>Stock Watchlist Tracker</h1>
+    <p>Track stocks, target prices, research notes, and live market data in one place.</p>
+    <a class="btn btn-primary" asp-action="Create">Add Stock</a>
+</div>
+
+<div class="card shadow-sm mt-4">
+    <div class="card-body">
+        <h3>Your Watchlist</h3>
+
+        @if (!Model.Any())
+        {
+            <p class="text-muted">No stocks added yet.</p>
+        }
+        else
+        {
+            <table class="table table-hover align-middle">
+                <thead>
+                    <tr>
+                        <th>Ticker</th>
+                        <th>Company</th>
+                        <th>Target</th>
+                        <th>Prev Close</th>
+                        <th>Diff</th>
+                        <th>High</th>
+                        <th>Low</th>
+                        <th>Volume</th>
+                        <th></th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        var stock = item.Stock;
+                        var api = item.ApiData;
+
+                        <tr>
+                            <td>
+                                <strong>@stock.Ticker</strong>
+
+                                @if (api.IsAvailable)
+                                {
+                                    <span class="badge bg-success ms-2">Live</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-secondary ms-2">No Data</span>
+                                }
+                            </td>
+
+                            <td>@stock.CompanyName</td>
+                            <td>$@stock.TargetPrice</td>
+
+                            @if (api.IsAvailable)
+                            {
+                                var priceColor = api.PreviousClose >= stock.TargetPrice ? "text-success" : "text-danger";
+                                var diff = api.PreviousClose - stock.TargetPrice;
+                                var diffColor = diff >= 0 ? "text-success" : "text-danger";
+
+                                <td>
+                                    <span class="@priceColor fw-bold">
+                                        $@api.PreviousClose
+                                    </span>
+                                </td>
+
+                                <td>
+                                    <span class="@diffColor fw-bold">
+                                        @diff.ToString("C")
+                                    </span>
+                                </td>
+
+                                <td>$@api.High</td>
+                                <td>$@api.Low</td>
+                                <td>@api.Volume.ToString("N0")</td>
+                            }
+                            else
+                            {
+                                <td colspan="5" class="text-muted">No API data</td>
+                            }
+
+                            <td>
+                                <a class="btn btn-sm btn-outline-primary" asp-action="Details" asp-route-id="@stock.Id">Details</a>
+                                <a class="btn btn-sm btn-outline-secondary" asp-action="Edit" asp-route-id="@stock.Id">Edit</a>
+                                <a class="btn btn-sm btn-outline-danger" asp-action="Delete" asp-route-id="@stock.Id">Delete</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    </div>
+</div>
