@@ -1,0 +1,49 @@
+@model StockWatchlistApp.Models.WatchlistStock
+
+@{
+    ViewData["Title"] = "Add Stock";
+}
+
+<div class="card shadow-sm mt-4">
+    <div class="card-body p-4">
+        <h1 class="mb-3">Add Stock</h1>
+        <p class="text-muted">Add a stock to your personal watchlist.</p>
+
+        <form asp-action="Create" method="post">
+            <div class="mb-3">
+                <label asp-for="Ticker" class="form-label">Ticker Symbol</label>
+                <input asp-for="Ticker" class="form-control" placeholder="Example: AAPL" />
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="CompanyName" class="form-label">Company Name</label>
+                <input asp-for="CompanyName" class="form-control" placeholder="Example: Apple Inc." />
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="TargetPrice" class="form-label">Target Price</label>
+                <input asp-for="TargetPrice" class="form-control" placeholder="Example: 220" />
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Category" class="form-label">Category</label>
+                <select asp-for="Category" class="form-select">
+                    <option value="">Choose a category</option>
+                    <option>Long Term</option>
+                    <option>Short Term Trade</option>
+                    <option>Research</option>
+                    <option>Dividend</option>
+                    <option>High Risk</option>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Notes" class="form-label">Notes</label>
+                <textarea asp-for="Notes" class="form-control" rows="4" placeholder="Why are you watching this stock?"></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Save Stock</button>
+            <a asp-action="Index" class="btn btn-outline-secondary">Cancel</a>
+        </form>
+    </div>
+</div>

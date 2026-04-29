@@ -1,0 +1,32 @@
+@model StockWatchlistApp.Models.WatchlistStock
+
+@{
+    ViewData["Title"] = "Stock Details";
+}
+
+<div class="card shadow-sm mt-4">
+    <div class="card-body p-4">
+        <h1>@Model.Ticker Details</h1>
+        <p class="text-muted">View saved stock information.</p>
+
+        <dl class="row">
+            <dt class="col-sm-3">Ticker</dt>
+            <dd class="col-sm-9">@Model.Ticker</dd>
+
+            <dt class="col-sm-3">Company</dt>
+            <dd class="col-sm-9">@Model.CompanyName</dd>
+
+            <dt class="col-sm-3">Target Price</dt>
+            <dd class="col-sm-9">$@Model.TargetPrice</dd>
+
+            <dt class="col-sm-3">Category</dt>
+            <dd class="col-sm-9">@Model.Category</dd>
+
+            <dt class="col-sm-3">Notes</dt>
+            <dd class="col-sm-9">@Model.Notes</dd>
+        </dl>
+
+        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">Edit</a>
+        <a asp-action="Index" class="btn btn-outline-secondary">Back</a>
+    </div>
+</div>
