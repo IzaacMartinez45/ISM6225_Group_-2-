@@ -22,7 +22,6 @@
 /Users/izaacmartinez/Documents/GitHub/ISM6225_Group_-2-/BusinessNewsApp/obj/Debug/net10.0/scopedcss/Views/Shared/_Layout.cshtml.rz.scp.css
 /Users/izaacmartinez/Documents/GitHub/ISM6225_Group_-2-/BusinessNewsApp/obj/Debug/net10.0/scopedcss/bundle/BusinessNewsApp.styles.css
 /Users/izaacmartinez/Documents/GitHub/ISM6225_Group_-2-/BusinessNewsApp/obj/Debug/net10.0/scopedcss/projectbundle/BusinessNewsApp.bundle.scp.css
-/Users/izaacmartinez/Documents/GitHub/ISM6225_Group_-2-/BusinessNewsApp/obj/Debug/net10.0/compressed/z7vs4pf234-{0}-b9sayid5wm-b9sayid5wm.gz
 /Users/izaacmartinez/Documents/GitHub/ISM6225_Group_-2-/BusinessNewsApp/obj/Debug/net10.0/compressed/wcpb0tpfbr-{0}-61n19gt1b8-61n19gt1b8.gz
 /Users/izaacmartinez/Documents/GitHub/ISM6225_Group_-2-/BusinessNewsApp/obj/Debug/net10.0/compressed/w0i0pxxnz6-{0}-xtxxf3hu2r-xtxxf3hu2r.gz
 /Users/izaacmartinez/Documents/GitHub/ISM6225_Group_-2-/BusinessNewsApp/obj/Debug/net10.0/compressed/jhva5bij5l-{0}-bqjiyaj88i-bqjiyaj88i.gz
@@ -84,8 +83,6 @@
 /Users/izaacmartinez/Documents/GitHub/ISM6225_Group_-2-/BusinessNewsApp/obj/Debug/net10.0/compressed/z2npi40e50-{0}-muycvpuwrr-muycvpuwrr.gz
 /Users/izaacmartinez/Documents/GitHub/ISM6225_Group_-2-/BusinessNewsApp/obj/Debug/net10.0/compressed/014d8c3ns0-{0}-87fc7y1x7t-87fc7y1x7t.gz
 /Users/izaacmartinez/Documents/GitHub/ISM6225_Group_-2-/BusinessNewsApp/obj/Debug/net10.0/compressed/gnkhm1yyqj-{0}-mlv21k5csn-mlv21k5csn.gz
-/Users/izaacmartinez/Documents/GitHub/ISM6225_Group_-2-/BusinessNewsApp/obj/Debug/net10.0/compressed/ww43r5rudm-{0}-on2fuhclqf-on2fuhclqf.gz
-/Users/izaacmartinez/Documents/GitHub/ISM6225_Group_-2-/BusinessNewsApp/obj/Debug/net10.0/compressed/0ufaukxyad-{0}-on2fuhclqf-on2fuhclqf.gz
 /Users/izaacmartinez/Documents/GitHub/ISM6225_Group_-2-/BusinessNewsApp/obj/Debug/net10.0/staticwebassets.build.json
 /Users/izaacmartinez/Documents/GitHub/ISM6225_Group_-2-/BusinessNewsApp/obj/Debug/net10.0/staticwebassets.build.json.cache
 /Users/izaacmartinez/Documents/GitHub/ISM6225_Group_-2-/BusinessNewsApp/obj/Debug/net10.0/staticwebassets.development.json
@@ -292,3 +289,6 @@ C:/dev/projects/ISM6225_Group_-2-/BusinessNewsApp/obj/Debug/net10.0/compressed/z
 /Users/svela/Desktop/hello/ISM6225_Group_-2-/BusinessNewsApp/obj/Debug/net10.0/BusinessNewsApp.pdb
 /Users/svela/Desktop/hello/ISM6225_Group_-2-/BusinessNewsApp/obj/Debug/net10.0/BusinessNewsApp.genruntimeconfig.cache
 /Users/svela/Desktop/hello/ISM6225_Group_-2-/BusinessNewsApp/obj/Debug/net10.0/ref/BusinessNewsApp.dll
+/Users/izaacmartinez/Documents/GitHub/ISM6225_Group_-2-/BusinessNewsApp/obj/Debug/net10.0/compressed/z7vs4pf234-{0}-5fr4gslitm-5fr4gslitm.gz
+/Users/izaacmartinez/Documents/GitHub/ISM6225_Group_-2-/BusinessNewsApp/obj/Debug/net10.0/compressed/ww43r5rudm-{0}-s5ojc6jliu-s5ojc6jliu.gz
+/Users/izaacmartinez/Documents/GitHub/ISM6225_Group_-2-/BusinessNewsApp/obj/Debug/net10.0/compressed/0ufaukxyad-{0}-s5ojc6jliu-s5ojc6jliu.gz

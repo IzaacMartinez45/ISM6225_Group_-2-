@@ -8,25 +8,24 @@
     "net10.0": []
   },
   "packageFolders": {
-    "/Users/svela/.nuget/packages/": {}
+    "/Users/izaacmartinez/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/svela/Desktop/hello/ISM6225_Group_-2-/BusinessNewsApp/BusinessNewsApp.csproj",
+      "projectUniqueName": "/Users/izaacmartinez/Documents/GitHub/ISM6225_Group_-2-/BusinessNewsApp/BusinessNewsApp.csproj",
       "projectName": "BusinessNewsApp",
-      "projectPath": "/Users/svela/Desktop/hello/ISM6225_Group_-2-/BusinessNewsApp/BusinessNewsApp.csproj",
-      "packagesPath": "/Users/svela/.nuget/packages/",
-      "outputPath": "/Users/svela/Desktop/hello/ISM6225_Group_-2-/BusinessNewsApp/obj/",
+      "projectPath": "/Users/izaacmartinez/Documents/GitHub/ISM6225_Group_-2-/BusinessNewsApp/BusinessNewsApp.csproj",
+      "packagesPath": "/Users/izaacmartinez/.nuget/packages/",
+      "outputPath": "/Users/izaacmartinez/Documents/GitHub/ISM6225_Group_-2-/BusinessNewsApp/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "/Users/svela/.nuget/NuGet/NuGet.Config"
+        "/Users/izaacmartinez/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net10.0"
       ],
       "sources": {
-        "/opt/homebrew/Cellar/dotnet/10.0.107/libexec/library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -45,7 +44,7 @@
         "auditLevel": "low",
         "auditMode": "all"
       },
-      "SdkAnalysisLevel": "10.0.100"
+      "SdkAnalysisLevel": "10.0.200"
     },
     "frameworks": {
       "net10.0": {
@@ -69,7 +68,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/opt/homebrew/Cellar/dotnet/10.0.107/libexec/sdk/10.0.107/PortableRuntimeIdentifierGraph.json",
+        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/10.0.201/PortableRuntimeIdentifierGraph.json",
         "packagesToPrune": {
           "Microsoft.AspNetCore": "(,10.0.32767]",
           "Microsoft.AspNetCore.Antiforgery": "(,10.0.32767]",
