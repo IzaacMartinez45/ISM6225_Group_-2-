@@ -1,7 +1,53 @@
+# Project files
+Final Project details
+
+# Build output
 bin/
 obj/
+
+# Visual Studio
 .vs/
-.DS_Store
 *.user
 *.suo
+*.userosscache
+*.sln.docstates
+*.rsuser
+
+# Visual Studio Code
+.vscode/
+
+# Rider
+.idea/
+
+# macOS
+.DS_Store
+Thumbs.db
+
+# ASP.NET Core
 appsettings.Development.json
+appsettings.Production.json
+
+# User secrets (never commit these)
+secrets.json
+**/secrets.json
+
+# Published output
+publish/
+**/publish/
+
+# NuGet
+*.nupkg
+*.snupkg
+.nuget/
+packages/
+
+# Logs
+*.log
+logs/
+
+# Environment / secrets
+.env
+*.env
+
+# Azure
+.azure/
