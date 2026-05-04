@@ -1,8 +1,40 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Home";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="text-center mt-4 mb-5">
+    <h1 class="fw-bold">Stock Portfolio Tracker</h1>
+    <p class="text-muted mt-2" style="max-width: 550px; margin: 0 auto;">
+        A simple tool to keep track of your stocks. Add symbols to your watchlist,
+        set a target price, and see how the current price compares.
+    </p>
+    <div class="mt-4">
+        <a class="btn btn-primary btn-lg me-2" asp-controller="Watchlist" asp-action="Index">
+            View Watchlist
+        </a>
+        <a class="btn btn-outline-secondary btn-lg" asp-controller="Home" asp-action="AboutUs">
+            About Us
+        </a>
+    </div>
+</div>
+
+<hr />
+
+<div class="row text-center mt-4">
+    <div class="col-md-3 mb-3">
+        <h5 class="fw-semibold">Add Stocks</h5>
+        <p class="text-muted small">Add stock symbols like AAPL or TSLA and set your target price.</p>
+    </div>
+    <div class="col-md-3 mb-3">
+        <h5 class="fw-semibold">Live Prices</h5>
+        <p class="text-muted small">Current closing prices are pulled from the Polygon.io API.</p>
+    </div>
+    <div class="col-md-3 mb-3">
+        <h5 class="fw-semibold">Price Difference</h5>
+        <p class="text-muted small">The app calculates the difference between current and target price.</p>
+    </div>
+    <div class="col-md-3 mb-3">
+        <h5 class="fw-semibold">Full CRUD</h5>
+        <p class="text-muted small">You can create, view, edit, and delete stocks from your list.</p>
+    </div>
 </div>
