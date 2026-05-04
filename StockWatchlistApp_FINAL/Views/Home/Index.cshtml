@@ -1,47 +1,215 @@
-﻿@{
-    ViewData["Title"] = "Home";
+﻿@model List<(StockWatchlistApp.Models.WatchlistStock Stock, StockWatchlistApp.Models.StockApiData ApiData)>
+
+@{
+    ViewData["Title"] = "Dashboard";
 }
 
-<div class="hero-section">
-    <h1>📈 Stock Watchlist Tracker</h1>
-    <p>Monitor your favorite stocks, set target prices, and track live market data — all in one place.</p>
-    <div class="mt-4">
-        <a class="btn btn-light btn-lg fw-semibold me-2" asp-controller="Watchlist" asp-action="Index">
-            Go to My Watchlist →
-        </a>
-        <a class="btn btn-outline-light btn-lg" asp-controller="Home" asp-action="AboutUs">
-            About Us
-        </a>
+<!-- Hero Section -->
+<section class="relative overflow-hidden rounded-xl bg-slate-900 border border-slate-800 p-12 mt-stack-lg">
+    <div class="relative z-10 max-w-2xl">
+        <span class="inline-block px-3 py-1 rounded-full bg-blue-500/10 text-blue-400 font-label-caps text-label-caps mb-6">INSTITUTIONAL GRADE</span>
+        <h2 class="font-display-lg text-display-lg text-slate-50 mb-4 leading-tight">Precision analytics for the modern investor</h2>
+        <p class="text-slate-400 text-body-base max-w-lg mb-8">Monitor your stock watchlist with live market data from Polygon.io. Set target prices, track performance, and manage your portfolio with full CRUD control.</p>
+        <div class="flex gap-4 flex-wrap">
+            <a asp-controller="Watchlist" asp-action="Index"
+               class="px-6 h-9 bg-[#4d8eff] text-[#00285d] font-label-caps text-label-caps rounded flex items-center justify-center hover:bg-blue-400 transition-colors">
+                LAUNCH WATCHLIST
+            </a>
+            <a asp-controller="Watchlist" asp-action="Create"
+               class="px-6 h-9 border border-slate-700 text-slate-300 font-label-caps text-label-caps rounded flex items-center justify-center hover:bg-slate-800 transition-colors">
+                + ADD STOCK
+            </a>
+        </div>
     </div>
-</div>
+    <div class="absolute right-0 top-0 w-1/2 h-full opacity-20 pointer-events-none">
+        <div class="absolute inset-0 bg-gradient-to-l from-blue-500/20 to-transparent"></div>
+        <svg class="absolute right-0 top-0 h-full w-full" viewBox="0 0 400 400">
+            <path class="text-blue-500" d="M0,350 L50,300 L100,320 L150,250 L200,280 L250,180 L300,220 L350,120 L400,150 L400,400 L0,400 Z" fill="currentColor"></path>
+        </svg>
+    </div>
+</section>
 
-<div class="row text-center mt-5">
-    <div class="col-md-3 mb-3">
-        <div class="card p-4 h-100 shadow-sm">
-            <div style="font-size:2.5rem">📋</div>
-            <h5 class="fw-semibold mt-2">Add Stocks</h5>
-            <p class="text-muted small">Add stock symbols like AAPL or TSLA and set your target price.</p>
+<!-- Feature Bento Grid -->
+<section class="grid grid-cols-12 gap-gutter mt-stack-lg">
+
+    <!-- Live Market Data — now powered by real watchlist data -->
+    <div class="col-span-12 lg:col-span-7 bg-surface-container border border-outline-variant rounded-xl p-stack-md flex flex-col justify-between hover:border-[#4d8eff] transition-all">
+        <div>
+            <div class="flex justify-between items-start mb-4">
+                <span class="material-symbols-outlined text-blue-400 p-2 bg-blue-500/10 rounded-lg">monitoring</span>
+                <span class="text-[10px] font-bold text-emerald-400 flex items-center">
+                    <span class="material-symbols-outlined text-xs mr-1">arrow_upward</span>LIVE CONNECTION
+                </span>
+            </div>
+            <h3 class="font-headline-md text-headline-md text-slate-50 mb-2">Live Market Data</h3>
+            <p class="text-slate-400 text-body-sm max-w-sm">Previous day close, high, low, and volume pulled directly from the Polygon.io API for every stock in your watchlist.</p>
+        </div>
+
+        <div class="mt-8 border-t border-slate-800 pt-4 flex gap-3 flex-wrap">
+            @if (!Model.Any())
+            {
+                <p class="text-[11px] text-slate-600 uppercase tracking-widest">
+                    Add stocks to your watchlist to see live data here.
+                    <a asp-controller="Watchlist" asp-action="Create" class="text-blue-500 hover:text-blue-400 ml-1">Add Stock →</a>
+                </p>
+            }
+            else
+            {
+                @foreach (var item in Model)
+                {
+                    var stock = item.Stock;
+                    var api = item.ApiData;
+                    var diff = api.IsAvailable ? api.PreviousClose - stock.TargetPrice : 0;
+                    var isUp = diff >= 0;
+
+                    <div class="flex-1 min-w-[120px] bg-slate-950 rounded p-3 border border-slate-800">
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="font-label-caps text-[10px] text-slate-400 font-bold">$@stock.Ticker</span>
+                            @if (api.IsAvailable)
+                            {
+                                <span class="text-[10px] font-bold @(isUp ? "text-emerald-400" : "text-red-400")">
+                                    @(isUp ? "▲" : "▼") $@api.PreviousClose
+                                </span>
+                            }
+                            else
+                            {
+                                <span class="text-[10px] text-slate-600">NO DATA</span>
+                            }
+                        </div>
+                        <div class="h-1.5 w-full bg-slate-800 rounded-full overflow-hidden">
+                            @if (api.IsAvailable)
+                            {
+                                <div class="h-full @(isUp ? "bg-emerald-400/50" : "bg-red-400/50") @(isUp ? "w-3/4" : "w-1/4") rounded-full"></div>
+                            }
+                        </div>
+                        <div class="mt-1.5 text-[9px] text-slate-600 uppercase tracking-wider">
+                            Target: $@stock.TargetPrice
+                        </div>
+                    </div>
+                }
+            }
         </div>
     </div>
-    <div class="col-md-3 mb-3">
-        <div class="card p-4 h-100 shadow-sm">
-            <div style="font-size:2.5rem">📡</div>
-            <h5 class="fw-semibold mt-2">Live Prices</h5>
-            <p class="text-muted small">Current closing prices are pulled from the Polygon.io API.</p>
+
+    <!-- Add Stocks -->
+    <div class="col-span-12 lg:col-span-5 bg-surface-container border border-outline-variant rounded-xl p-stack-md flex flex-col hover:border-[#4d8eff] transition-all">
+        <span class="material-symbols-outlined text-blue-400 p-2 bg-blue-500/10 rounded-lg self-start mb-4">add_circle</span>
+        <h3 class="font-headline-md text-headline-md text-slate-50 mb-2">Add Stocks</h3>
+        <p class="text-slate-400 text-body-sm mb-6">Add any ticker symbol to your personal watchlist with a target price, category, and investment notes.</p>
+        <div class="mt-auto bg-slate-950 border border-slate-800 rounded p-1 flex">
+            <div class="bg-slate-800 text-slate-300 text-[11px] px-3 py-1.5 rounded mr-auto">Search Ticker...</div>
+            <a asp-controller="Watchlist" asp-action="Create"
+               class="bg-blue-500 text-white px-3 py-1 rounded text-[11px] font-bold hover:bg-blue-400 transition-colors">ADD</a>
         </div>
     </div>
-    <div class="col-md-3 mb-3">
-        <div class="card p-4 h-100 shadow-sm">
-            <div style="font-size:2.5rem">🎯</div>
-            <h5 class="fw-semibold mt-2">Price Difference</h5>
-            <p class="text-muted small">The app calculates the difference between current and target price.</p>
+
+    <!-- Price Targets -->
+    <div class="col-span-12 lg:col-span-5 bg-surface-container border border-outline-variant rounded-xl p-stack-md hover:border-[#4d8eff] transition-all">
+        <span class="material-symbols-outlined text-blue-400 p-2 bg-blue-500/10 rounded-lg mb-4">ads_click</span>
+        <h3 class="font-headline-md text-headline-md text-slate-50 mb-2">Price Targets</h3>
+        <p class="text-slate-400 text-body-sm mb-6">Set your entry and exit targets. The app calculates the difference between your target and the live previous close — green if above, red if below.</p>
+        <div class="space-y-2">
+            <div class="flex items-center gap-3">
+                <div class="w-2 h-2 rounded-full bg-emerald-400"></div>
+                <div class="flex-1 h-1 bg-slate-800 rounded-full overflow-hidden">
+                    <div class="w-3/4 h-full bg-emerald-400/50"></div>
+                </div>
+                <span class="text-data-tabular text-slate-400">Above Target</span>
+            </div>
+            <div class="flex items-center gap-3">
+                <div class="w-2 h-2 rounded-full bg-red-400"></div>
+                <div class="flex-1 h-1 bg-slate-800 rounded-full overflow-hidden">
+                    <div class="w-1/4 h-full bg-red-400/50"></div>
+                </div>
+                <span class="text-data-tabular text-slate-400">Below Target</span>
+            </div>
         </div>
     </div>
-    <div class="col-md-3 mb-3">
-        <div class="card p-4 h-100 shadow-sm">
-            <div style="font-size:2.5rem">✏️</div>
-            <h5 class="fw-semibold mt-2">Full CRUD</h5>
-            <p class="text-muted small">You can create, view, edit, and delete stocks from your list.</p>
+
+    <!-- Full CRUD -->
+    <div class="col-span-12 lg:col-span-7 bg-surface-container border border-outline-variant rounded-xl p-stack-md flex gap-6 hover:border-[#4d8eff] transition-all">
+        <div class="flex-1">
+            <span class="material-symbols-outlined text-blue-400 p-2 bg-blue-500/10 rounded-lg mb-4">database</span>
+            <h3 class="font-headline-md text-headline-md text-slate-50 mb-2">Full CRUD Control</h3>
+            <p class="text-slate-400 text-body-sm">Complete control over your watchlist. Create, read, update, and delete stocks with all changes reflected instantly across the app.</p>
+        </div>
+        <div class="w-48 bg-slate-950 rounded border border-slate-800 p-3 space-y-2 flex flex-col justify-center">
+            <a asp-controller="Watchlist" asp-action="Create"
+               class="flex items-center gap-2 py-1 px-2 hover:bg-slate-900 rounded transition-colors">
+                <span class="material-symbols-outlined text-xs text-blue-400">add</span>
+                <span class="text-[10px] text-slate-400 font-medium">Add Stock</span>
+            </a>
+            <a asp-controller="Watchlist" asp-action="Index"
+               class="flex items-center gap-2 py-1 px-2 hover:bg-slate-900 rounded transition-colors">
+                <span class="material-symbols-outlined text-xs text-blue-400">edit</span>
+                <span class="text-[10px] text-slate-400 font-medium">Edit Stocks</span>
+            </a>
+            <div class="flex items-center gap-2 py-1 px-2 rounded border border-blue-500/20 bg-blue-500/5">
+                <span class="material-symbols-outlined text-xs text-blue-400">list_alt</span>
+                <span class="text-[10px] text-slate-400 font-medium">View Watchlist</span>
+            </div>
         </div>
     </div>
-</div>
+</section>
+
+<!-- Watchlist Preview Table -->
+<section class="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden mt-stack-lg">
+    <div class="px-6 py-4 border-b border-slate-800 flex justify-between items-center bg-slate-950/50">
+        <h4 class="font-label-caps text-label-caps text-slate-300">WATCHLIST PREVIEW</h4>
+        <a asp-controller="Watchlist" asp-action="Index"
+           class="text-blue-500 font-label-caps text-label-caps hover:text-blue-400 transition-colors">VIEW ALL →</a>
+    </div>
+    <table class="w-full text-left font-data-tabular text-data-tabular">
+        <thead class="bg-slate-950/30 text-slate-500 border-b border-slate-800">
+            <tr>
+                <th class="px-6 py-3 font-medium">SYMBOL</th>
+                <th class="px-6 py-3 font-medium">COMPANY</th>
+                <th class="px-6 py-3 font-medium text-right">TARGET</th>
+                <th class="px-6 py-3 font-medium text-right">PREV CLOSE</th>
+                <th class="px-6 py-3 font-medium text-right">DIFF</th>
+            </tr>
+        </thead>
+        <tbody class="divide-y divide-slate-800">
+            @if (!Model.Any())
+            {
+                <tr>
+                    <td colspan="5" class="px-6 py-8 text-[11px] text-slate-600 uppercase tracking-widest text-center">
+                        Add stocks to your watchlist to see them here →
+                        <a asp-controller="Watchlist" asp-action="Create" class="text-blue-500 hover:text-blue-400 ml-2">Add Stock</a>
+                    </td>
+                </tr>
+            }
+            else
+            {
+                @foreach (var item in Model)
+                {
+                    var stock = item.Stock;
+                    var api = item.ApiData;
+
+                    <tr class="hover:bg-slate-800/30 transition-colors">
+                        <td class="px-6 py-3">
+                            <span class="bg-slate-800 text-slate-100 font-bold px-1.5 py-0.5 rounded text-[11px]">@stock.Ticker</span>
+                        </td>
+                        <td class="px-6 py-3 text-slate-400">@stock.CompanyName</td>
+                        <td class="px-6 py-3 text-right text-slate-200">$@stock.TargetPrice</td>
+                        @if (api.IsAvailable)
+                        {
+                            var diff = api.PreviousClose - stock.TargetPrice;
+                            var isUp = diff >= 0;
+                            <td class="px-6 py-3 text-right @(isUp ? "text-emerald-400" : "text-red-400") font-bold">
+                                $@api.PreviousClose
+                            </td>
+                            <td class="px-6 py-3 text-right @(isUp ? "text-emerald-400" : "text-red-400") font-bold">
+                                @(isUp ? "▲" : "▼") @Math.Abs(diff).ToString("C")
+                            </td>
+                        }
+                        else
+                        {
+                            <td colspan="2" class="px-6 py-3 text-right text-slate-600 text-[11px]">No data</td>
+                        }
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</section>

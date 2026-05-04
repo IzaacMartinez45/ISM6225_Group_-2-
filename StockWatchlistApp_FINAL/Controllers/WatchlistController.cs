@@ -19,7 +19,6 @@ public class WatchlistController : Controller
         _stockApiService = stockApiService;
     }
 
-    // 🔥 UPDATED INDEX WITH API DATA
     public async Task<IActionResult> Index()
     {
         var stocks = await _dbContext.WatchlistStocks.ToListAsync();
@@ -58,10 +57,7 @@ public class WatchlistController : Controller
     {
         var stock = await _dbContext.WatchlistStocks.FindAsync(id);
 
-        if (stock == null)
-        {
-            return NotFound();
-        }
+        if (stock == null) return NotFound();
 
         return View(stock);
     }
@@ -73,10 +69,7 @@ public class WatchlistController : Controller
         {
             var existingStock = await _dbContext.WatchlistStocks.FindAsync(stock.Id);
 
-            if (existingStock == null)
-            {
-                return NotFound();
-            }
+            if (existingStock == null) return NotFound();
 
             existingStock.Ticker = stock.Ticker.ToUpper().Trim();
             existingStock.CompanyName = stock.CompanyName;
@@ -95,10 +88,7 @@ public class WatchlistController : Controller
     {
         var stock = await _dbContext.WatchlistStocks.FindAsync(id);
 
-        if (stock == null)
-        {
-            return NotFound();
-        }
+        if (stock == null) return NotFound();
 
         return View(stock);
     }
@@ -107,10 +97,7 @@ public class WatchlistController : Controller
     {
         var stock = await _dbContext.WatchlistStocks.FindAsync(id);
 
-        if (stock == null)
-        {
-            return NotFound();
-        }
+        if (stock == null) return NotFound();
 
         return View(stock);
     }

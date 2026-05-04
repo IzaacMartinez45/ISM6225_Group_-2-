@@ -1,33 +1,47 @@
 @model StockWatchlistApp.Models.WatchlistStock
 
 @{
-    ViewData["Title"] = "Delete Stock";
+    ViewData["Title"] = "Delete Security";
 }
 
-<div class="card shadow-sm mt-4">
-    <div class="card-body p-4">
-        <h1>Delete Stock</h1>
-        <p class="text-danger">Are you sure you want to delete this stock from your watchlist?</p>
+<div class="max-w-lg mt-stack-lg">
+    <div class="mb-stack-lg">
+        <h2 class="font-headline-md text-headline-md text-on-surface mb-stack-xs">Delete Security</h2>
+        <p class="font-body-sm text-body-sm text-red-400">This action is permanent and cannot be undone.</p>
+    </div>
 
-        <dl class="row">
-            <dt class="col-sm-3">Ticker</dt>
-            <dd class="col-sm-9">@Model.Ticker</dd>
+    <div class="bg-surface-container rounded-xl border border-red-500/20 overflow-hidden">
+        <div class="p-stack-md bg-red-500/5 border-b border-red-500/20 flex items-center gap-3">
+            <span class="material-symbols-outlined text-red-400">warning</span>
+            <span class="font-label-caps text-label-caps text-red-400 uppercase">Confirm Deletion</span>
+        </div>
+        <div class="p-stack-lg">
+            <div class="flex items-center gap-4 mb-6">
+                <div class="w-12 h-12 rounded-lg bg-slate-800 flex items-center justify-center">
+                    <span class="font-black text-red-400 text-sm">@Model.Ticker.Substring(0, Math.Min(2, Model.Ticker.Length))</span>
+                </div>
+                <div>
+                    <div class="flex items-center gap-2">
+                        <span class="bg-slate-800 text-slate-100 font-bold px-2 py-0.5 rounded text-[11px]">@Model.Ticker</span>
+                        <span class="font-data-tabular text-on-surface">@Model.CompanyName</span>
+                    </div>
+                    <p class="text-[11px] text-slate-500 mt-1">Target: $@Model.TargetPrice · @Model.Category</p>
+                </div>
+            </div>
 
-            <dt class="col-sm-3">Company</dt>
-            <dd class="col-sm-9">@Model.CompanyName</dd>
-
-            <dt class="col-sm-3">Target Price</dt>
-            <dd class="col-sm-9">$@Model.TargetPrice</dd>
-
-            <dt class="col-sm-3">Category</dt>
-            <dd class="col-sm-9">@Model.Category</dd>
-        </dl>
-
-        <form asp-action="DeleteConfirmed" method="post">
-            <input type="hidden" asp-for="Id" />
-
-            <button type="submit" class="btn btn-danger">Delete</button>
-            <a asp-action="Index" class="btn btn-outline-secondary">Cancel</a>
-        </form>
+            <form asp-action="DeleteConfirmed" method="post">
+                <input type="hidden" asp-for="Id" />
+                <div class="flex gap-stack-md">
+                    <button type="submit"
+                            class="bg-red-500 text-white font-label-caps text-label-caps uppercase h-9 px-8 rounded hover:bg-red-600 transition-all flex items-center gap-2">
+                        <span class="material-symbols-outlined text-sm">delete</span>CONFIRM DELETE
+                    </button>
+                    <a asp-action="Index"
+                       class="border border-outline-variant text-outline font-label-caps text-label-caps uppercase h-9 px-8 rounded hover:bg-surface-container-highest transition-all flex items-center">
+                        Cancel
+                    </a>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
