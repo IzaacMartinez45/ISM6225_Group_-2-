@@ -16,6 +16,21 @@ Apply migrations locally:
 dotnet ef database update
 ```
 
+## Entity Relationship Diagram (ERD)
+
+The current version of the application uses one main database table: `WatchlistStocks`. This table stores each stock entry added by the user to the watchlist.
+
+```text
+WatchlistStocks
+---------------
+Id (PK)
+Ticker
+CompanyName
+TargetPrice
+Category
+Notes
+```
+
 ### API Integration
 
 - The app integrates with the Polygon API (`/v2/aggs/ticker/{ticker}/prev`) for previous-day stock data.
