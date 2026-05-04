@@ -1,58 +1,70 @@
 @model StockWatchlistApp.Models.WatchlistStock
 
 @{
-    ViewData["Title"] = "Edit Stock";
+    ViewData["Title"] = "Edit Security";
 }
 
-<div class="row justify-content-center mt-4">
-    <div class="col-lg-6 col-md-8">
-        <div class="mb-4">
-            <h2 style="font-weight:700; letter-spacing:-0.02em;">Edit Stock</h2>
-            <p class="text-muted" style="font-size:0.9rem;">Update your saved stock information.</p>
-        </div>
+<div class="mb-stack-lg mt-stack-lg">
+    <h2 class="font-headline-md text-headline-md text-on-surface mb-stack-xs">Edit Security</h2>
+    <p class="font-body-sm text-body-sm text-on-surface-variant">Update your saved stock information.</p>
+</div>
 
-        <div class="card">
-            <div class="card-body">
-                <form asp-action="Edit" method="post">
-                    <input type="hidden" asp-for="Id" />
+<div class="max-w-2xl">
+    <div class="bg-surface-container rounded-xl border border-outline-variant overflow-hidden">
+        <div class="p-stack-lg">
+            <form asp-action="Edit" method="post" class="space-y-stack-md">
+                <input type="hidden" asp-for="Id" />
 
-                    <div class="mb-4">
-                        <label asp-for="Ticker" class="form-label">Ticker Symbol</label>
-                        <input asp-for="Ticker" class="form-control" />
+                <div class="grid grid-cols-2 gap-stack-md">
+                    <div class="space-y-stack-xs">
+                        <label asp-for="Ticker" class="font-label-caps text-label-caps text-outline uppercase block">Ticker Symbol</label>
+                        <input asp-for="Ticker" type="text"
+                               class="w-full bg-surface-container-low border border-outline-variant focus:border-[#4d8eff] focus:ring-0 text-on-surface font-data-tabular text-data-tabular rounded h-9 px-3 transition-colors outline-none" />
                     </div>
-
-                    <div class="mb-4">
-                        <label asp-for="CompanyName" class="form-label">Company Name</label>
-                        <input asp-for="CompanyName" class="form-control" />
+                    <div class="space-y-stack-xs">
+                        <label asp-for="TargetPrice" class="font-label-caps text-label-caps text-outline uppercase block">Target Price ($)</label>
+                        <input asp-for="TargetPrice" type="number" step="0.01"
+                               class="w-full bg-surface-container-low border border-outline-variant focus:border-[#4d8eff] focus:ring-0 text-on-surface font-data-tabular text-data-tabular rounded h-9 px-3 transition-colors outline-none" />
                     </div>
+                </div>
 
-                    <div class="mb-4">
-                        <label asp-for="TargetPrice" class="form-label">Target Price</label>
-                        <input asp-for="TargetPrice" class="form-control" />
-                    </div>
+                <div class="space-y-stack-xs">
+                    <label asp-for="CompanyName" class="font-label-caps text-label-caps text-outline uppercase block">Company Name</label>
+                    <input asp-for="CompanyName" type="text"
+                           class="w-full bg-surface-container-low border border-outline-variant focus:border-[#4d8eff] focus:ring-0 text-on-surface font-body-base text-body-base rounded h-9 px-3 transition-colors outline-none" />
+                </div>
 
-                    <div class="mb-4">
-                        <label asp-for="Category" class="form-label">Category</label>
-                        <select asp-for="Category" class="form-select">
-                            <option>Long Term</option>
-                            <option>Short Term Trade</option>
-                            <option>Research</option>
-                            <option>Dividend</option>
-                            <option>High Risk</option>
-                        </select>
+                <div class="space-y-stack-xs">
+                    <label class="font-label-caps text-label-caps text-outline uppercase block">Category</label>
+                    <div class="grid grid-cols-2 md:grid-cols-3 gap-2">
+                        @foreach (var cat in new[] { "Long Term", "Short Term Trade", "Research", "Dividend", "High Risk" })
+                        {
+                            <label class="flex items-center p-2 rounded border border-outline-variant bg-surface-container-lowest cursor-pointer hover:bg-secondary-container/20 transition-all group">
+                                <input type="radio" asp-for="Category" value="@cat"
+                                       class="text-[#4d8eff] focus:ring-0 bg-transparent mr-3 border-outline" />
+                                <span class="font-body-sm text-body-sm text-on-surface-variant group-hover:text-on-surface">@cat</span>
+                            </label>
+                        }
                     </div>
+                </div>
 
-                    <div class="mb-4">
-                        <label asp-for="Notes" class="form-label">Notes <span style="color:#4b5563;">(optional)</span></label>
-                        <textarea asp-for="Notes" class="form-control" rows="4"></textarea>
-                    </div>
+                <div class="space-y-stack-xs">
+                    <label asp-for="Notes" class="font-label-caps text-label-caps text-outline uppercase block">Notes &amp; Thesis</label>
+                    <textarea asp-for="Notes" rows="5"
+                              class="w-full bg-surface-container-low border border-outline-variant focus:border-[#4d8eff] focus:ring-0 text-on-surface font-body-sm text-body-sm rounded p-3 transition-colors resize-none outline-none"></textarea>
+                </div>
 
-                    <div class="d-flex gap-2">
-                        <button type="submit" class="btn btn-primary">Save Changes</button>
-                        <a asp-action="Index" class="btn btn-outline-secondary">Cancel</a>
-                    </div>
-                </form>
-            </div>
+                <div class="pt-stack-md flex gap-stack-md">
+                    <button type="submit"
+                            class="bg-[#4d8eff] text-[#00285d] font-label-caps text-label-caps uppercase h-9 px-8 rounded hover:brightness-110 transition-all flex items-center">
+                        Save Changes
+                    </button>
+                    <a asp-action="Index"
+                       class="border border-outline-variant text-outline font-label-caps text-label-caps uppercase h-9 px-8 rounded hover:bg-surface-container-highest transition-all flex items-center">
+                        Cancel
+                    </a>
+                </div>
+            </form>
         </div>
     </div>
 </div>

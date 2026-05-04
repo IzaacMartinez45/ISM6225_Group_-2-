@@ -1,62 +1,117 @@
 @model StockWatchlistApp.Models.WatchlistStock
 
 @{
-    ViewData["Title"] = "Add Stock";
+    ViewData["Title"] = "Add New Security";
 }
 
-<div class="row justify-content-center mt-4">
-    <div class="col-lg-6 col-md-8">
-        <div class="mb-4">
-            <h2 style="font-weight:700; letter-spacing:-0.02em;">Add Stock</h2>
-            <p class="text-muted" style="font-size:0.9rem;">Add a new stock to your watchlist.</p>
+<div class="mb-stack-lg mt-stack-lg">
+    <h2 class="font-headline-md text-headline-md text-on-surface mb-stack-xs">Add New Security</h2>
+    <p class="font-body-sm text-body-sm text-on-surface-variant">Analyze and track a new asset in your core terminal watchlist.</p>
+</div>
+
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter">
+
+    <!-- Form Card -->
+    <div class="lg:col-span-7 bg-surface-container rounded-xl border border-outline-variant overflow-hidden">
+        <div class="p-stack-lg">
+            <form asp-action="Create" method="post" class="space-y-stack-md">
+                <div asp-validation-summary="All" class="text-[11px] text-red-400 bg-red-400/10 border border-red-400/20 rounded p-3 mb-4"></div>
+
+                <div class="grid grid-cols-2 gap-stack-md">
+                    <div class="space-y-stack-xs">
+                        <label asp-for="Ticker" class="font-label-caps text-label-caps text-outline uppercase block">Ticker Symbol</label>
+                        <input asp-for="Ticker" type="text" placeholder="e.g. NVDA"
+                               class="w-full bg-surface-container-low border border-outline-variant focus:border-[#4d8eff] focus:ring-0 text-on-surface font-data-tabular text-data-tabular rounded h-9 px-3 transition-colors outline-none" />
+                        <span asp-validation-for="Ticker" class="field-validation-error"></span>
+                    </div>
+                    <div class="space-y-stack-xs">
+                        <label asp-for="TargetPrice" class="font-label-caps text-label-caps text-outline uppercase block">Target Price ($)</label>
+                        <input asp-for="TargetPrice" type="number" step="0.01" placeholder="0.00"
+                               class="w-full bg-surface-container-low border border-outline-variant focus:border-[#4d8eff] focus:ring-0 text-on-surface font-data-tabular text-data-tabular rounded h-9 px-3 transition-colors outline-none" />
+                        <span asp-validation-for="TargetPrice" class="field-validation-error"></span>
+                    </div>
+                </div>
+
+                <div class="space-y-stack-xs">
+                    <label asp-for="CompanyName" class="font-label-caps text-label-caps text-outline uppercase block">Company Name</label>
+                    <input asp-for="CompanyName" type="text" placeholder="e.g. NVIDIA Corporation"
+                           class="w-full bg-surface-container-low border border-outline-variant focus:border-[#4d8eff] focus:ring-0 text-on-surface font-body-base text-body-base rounded h-9 px-3 transition-colors outline-none" />
+                    <span asp-validation-for="CompanyName" class="field-validation-error"></span>
+                </div>
+
+                <div class="space-y-stack-xs">
+                    <label class="font-label-caps text-label-caps text-outline uppercase block">Category</label>
+                    <div class="grid grid-cols-2 md:grid-cols-3 gap-2">
+                        @foreach (var cat in new[] { "Long Term", "Short Term Trade", "Research", "Dividend", "High Risk" })
+                        {
+                            <label class="flex items-center p-2 rounded border border-outline-variant bg-surface-container-lowest cursor-pointer hover:bg-secondary-container/20 transition-all group">
+                                <input type="radio" asp-for="Category" value="@cat"
+                                       class="text-[#4d8eff] focus:ring-0 bg-transparent mr-3 border-outline" />
+                                <span class="font-body-sm text-body-sm text-on-surface-variant group-hover:text-on-surface">@cat</span>
+                            </label>
+                        }
+                    </div>
+                    <span asp-validation-for="Category" class="field-validation-error"></span>
+                </div>
+
+                <div class="space-y-stack-xs">
+                    <label asp-for="Notes" class="font-label-caps text-label-caps text-outline uppercase block">Notes &amp; Thesis</label>
+                    <textarea asp-for="Notes" rows="5" placeholder="Enter investment thesis or technical analysis notes..."
+                              class="w-full bg-surface-container-low border border-outline-variant focus:border-[#4d8eff] focus:ring-0 text-on-surface font-body-sm text-body-sm rounded p-3 transition-colors resize-none outline-none"></textarea>
+                </div>
+
+                <div class="pt-stack-md flex gap-stack-md">
+                    <button type="submit"
+                            class="bg-[#4d8eff] text-[#00285d] font-label-caps text-label-caps uppercase h-9 px-8 rounded hover:brightness-110 transition-all flex items-center">
+                        Add to Watchlist
+                    </button>
+                    <a asp-action="Index"
+                       class="border border-outline-variant text-outline font-label-caps text-label-caps uppercase h-9 px-8 rounded hover:bg-surface-container-highest transition-all flex items-center">
+                        Cancel
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Right Panel -->
+    <div class="lg:col-span-5 space-y-gutter">
+        <div class="bg-slate-900 rounded-xl border border-slate-800 overflow-hidden">
+            <div class="p-stack-md bg-slate-950/50 border-b border-slate-800 flex justify-between items-center">
+                <span class="font-label-caps text-label-caps text-slate-400 uppercase">Polygon.io API</span>
+                <span class="flex items-center text-[10px] text-green-500 font-bold bg-green-500/10 px-2 py-0.5 rounded">CONNECTED</span>
+            </div>
+            <div class="p-stack-md">
+                <p class="text-[10px] text-slate-500 font-bold mb-2">HOW IT WORKS</p>
+                <div class="space-y-3 text-body-sm text-slate-400">
+                    <div class="flex items-start gap-2">
+                        <span class="material-symbols-outlined text-blue-400 text-sm mt-0.5">check_circle</span>
+                        <span>Enter a valid ticker symbol (e.g. AAPL, TSLA, NVDA)</span>
+                    </div>
+                    <div class="flex items-start gap-2">
+                        <span class="material-symbols-outlined text-blue-400 text-sm mt-0.5">check_circle</span>
+                        <span>Set your personal target price for the stock</span>
+                    </div>
+                    <div class="flex items-start gap-2">
+                        <span class="material-symbols-outlined text-blue-400 text-sm mt-0.5">check_circle</span>
+                        <span>The app fetches previous day close, high, low, and volume automatically</span>
+                    </div>
+                    <div class="flex items-start gap-2">
+                        <span class="material-symbols-outlined text-blue-400 text-sm mt-0.5">check_circle</span>
+                        <span>Price difference vs your target is shown in green (above) or red (below)</span>
+                    </div>
+                </div>
+            </div>
         </div>
 
-        <div class="card">
-            <div class="card-body">
-                <form asp-action="Create" method="post">
-                    <div asp-validation-summary="All" class="mb-3" style="color:#ff4d6d; font-size:0.85rem;"></div>
-
-                    <div class="mb-4">
-                        <label asp-for="Ticker" class="form-label">Ticker Symbol</label>
-                        <input asp-for="Ticker" class="form-control" placeholder="e.g. AAPL" />
-                        <span asp-validation-for="Ticker" style="color:#ff4d6d; font-size:0.8rem;"></span>
-                    </div>
-
-                    <div class="mb-4">
-                        <label asp-for="CompanyName" class="form-label">Company Name</label>
-                        <input asp-for="CompanyName" class="form-control" placeholder="e.g. Apple Inc." />
-                        <span asp-validation-for="CompanyName" style="color:#ff4d6d; font-size:0.8rem;"></span>
-                    </div>
-
-                    <div class="mb-4">
-                        <label asp-for="TargetPrice" class="form-label">Target Price</label>
-                        <input asp-for="TargetPrice" class="form-control" placeholder="e.g. 220.00" />
-                        <span asp-validation-for="TargetPrice" style="color:#ff4d6d; font-size:0.8rem;"></span>
-                    </div>
-
-                    <div class="mb-4">
-                        <label asp-for="Category" class="form-label">Category</label>
-                        <select asp-for="Category" class="form-select">
-                            <option value="">Choose a category</option>
-                            <option>Long Term</option>
-                            <option>Short Term Trade</option>
-                            <option>Research</option>
-                            <option>Dividend</option>
-                            <option>High Risk</option>
-                        </select>
-                        <span asp-validation-for="Category" style="color:#ff4d6d; font-size:0.8rem;"></span>
-                    </div>
-
-                    <div class="mb-4">
-                        <label asp-for="Notes" class="form-label">Notes <span style="color:#4b5563;">(optional)</span></label>
-                        <textarea asp-for="Notes" class="form-control" rows="4" placeholder="Why are you watching this stock?"></textarea>
-                    </div>
-
-                    <div class="d-flex gap-2">
-                        <button type="submit" class="btn btn-primary">Save Stock</button>
-                        <a asp-action="Index" class="btn btn-outline-secondary">Cancel</a>
-                    </div>
-                </form>
+        <div class="grid grid-cols-2 gap-stack-sm">
+            <div class="bg-surface-container-high p-stack-sm rounded border border-outline-variant">
+                <p class="text-[10px] text-outline font-bold uppercase mb-1">Data Source</p>
+                <p class="font-data-tabular text-on-surface">Polygon.io</p>
+            </div>
+            <div class="bg-surface-container-high p-stack-sm rounded border border-outline-variant">
+                <p class="text-[10px] text-outline font-bold uppercase mb-1">Data Type</p>
+                <p class="font-data-tabular text-on-surface">Prev. Day OHLCV</p>
             </div>
         </div>
     </div>

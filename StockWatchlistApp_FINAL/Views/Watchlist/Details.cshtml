@@ -1,46 +1,82 @@
 @model StockWatchlistApp.Models.WatchlistStock
 
 @{
-    ViewData["Title"] = "Stock Details";
+    ViewData["Title"] = $"{Model.Ticker} Details";
 }
 
-<div class="row justify-content-center mt-4">
-    <div class="col-lg-6 col-md-8">
-        <div class="mb-4">
-            <h2 style="font-weight:700; letter-spacing:-0.02em;">
-                <span class="ticker-badge me-2">@Model.Ticker</span> Details
-            </h2>
-            <p class="text-muted" style="font-size:0.9rem;">Saved stock information.</p>
-        </div>
-
-        <div class="card">
-            <div class="card-body">
-                <dl class="row mb-0">
-                    <dt class="col-sm-4">Ticker</dt>
-                    <dd class="col-sm-8"><span class="ticker-badge">@Model.Ticker</span></dd>
-
-                    <dt class="col-sm-4">Company</dt>
-                    <dd class="col-sm-8">@Model.CompanyName</dd>
-
-                    <dt class="col-sm-4">Target Price</dt>
-                    <dd class="col-sm-8" style="color:#00d4aa; font-weight:600;">$@Model.TargetPrice</dd>
-
-                    <dt class="col-sm-4">Category</dt>
-                    <dd class="col-sm-8">
-                        <span style="background:rgba(96,165,250,0.1); color:#60a5fa; padding:3px 10px; border-radius:20px; font-size:0.78rem; font-weight:500;">
-                            @Model.Category
-                        </span>
-                    </dd>
-
-                    <dt class="col-sm-4">Notes</dt>
-                    <dd class="col-sm-8" style="color:#9ca3af;">@(string.IsNullOrEmpty(Model.Notes) ? "—" : Model.Notes)</dd>
-                </dl>
+<div class="mt-stack-lg">
+    <!-- Header -->
+    <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
+        <div class="flex items-center gap-4">
+            <div class="w-16 h-16 rounded-xl bg-surface-container-high flex items-center justify-center border border-outline-variant">
+                <span class="font-black text-blue-400 text-lg">@Model.Ticker.Substring(0, Math.Min(2, Model.Ticker.Length))</span>
+            </div>
+            <div>
+                <div class="flex items-center gap-2">
+                    <h2 class="font-headline-md text-headline-md text-on-surface">@Model.CompanyName</h2>
+                    <span class="font-label-caps text-label-caps bg-slate-800 text-slate-300 px-2 py-1 rounded">@Model.Ticker</span>
+                </div>
+                <p class="font-body-sm text-body-sm text-on-surface-variant mt-1">@Model.Category</p>
             </div>
         </div>
+        <div class="text-right">
+            <div class="text-[10px] text-slate-500 font-bold uppercase mb-1">Target Price</div>
+            <div class="font-headline-md text-headline-md text-emerald-400">$@Model.TargetPrice</div>
+        </div>
+    </div>
 
-        <div class="d-flex gap-2 mt-3">
-            <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">✏️ Edit</a>
-            <a asp-action="Index" class="btn btn-outline-secondary">← Back to Watchlist</a>
+    <!-- Details Grid -->
+    <div class="grid grid-cols-12 gap-gutter">
+        <div class="col-span-12 lg:col-span-8 bg-surface-container rounded-xl p-stack-lg border border-outline-variant">
+            <h3 class="font-label-caps text-label-caps text-slate-500 uppercase tracking-widest mb-6">Stock Information</h3>
+            <div class="grid grid-cols-2 gap-y-6 gap-x-8">
+                <div>
+                    <p class="text-[10px] text-slate-500 font-bold uppercase mb-1">Ticker Symbol</p>
+                    <span class="bg-slate-800 text-slate-100 font-bold px-2 py-1 rounded text-sm">@Model.Ticker</span>
+                </div>
+                <div>
+                    <p class="text-[10px] text-slate-500 font-bold uppercase mb-1">Company Name</p>
+                    <p class="font-data-tabular text-on-surface">@Model.CompanyName</p>
+                </div>
+                <div>
+                    <p class="text-[10px] text-slate-500 font-bold uppercase mb-1">Target Price</p>
+                    <p class="font-data-tabular text-emerald-400 text-lg font-bold">$@Model.TargetPrice</p>
+                </div>
+                <div>
+                    <p class="text-[10px] text-slate-500 font-bold uppercase mb-1">Category</p>
+                    <span class="text-[11px] font-bold text-blue-400 bg-blue-500/10 px-2 py-1 rounded">@Model.Category</span>
+                </div>
+            </div>
+
+            @if (!string.IsNullOrEmpty(Model.Notes))
+            {
+                <div class="mt-6 pt-6 border-t border-outline-variant">
+                    <p class="text-[10px] text-slate-500 font-bold uppercase mb-3">Investment Notes &amp; Thesis</p>
+                    <div class="bg-surface-container-low border border-slate-800 rounded p-4">
+                        <p class="font-body-sm text-body-sm text-on-surface-variant border-l-2 border-blue-500 pl-3">@Model.Notes</p>
+                    </div>
+                </div>
+            }
+        </div>
+
+        <div class="col-span-12 lg:col-span-4 space-y-gutter">
+            <div class="bg-surface-container rounded-xl p-stack-lg border border-outline-variant">
+                <h3 class="font-label-caps text-label-caps text-slate-500 uppercase tracking-widest mb-4">Actions</h3>
+                <div class="space-y-2">
+                    <a asp-action="Edit" asp-route-id="@Model.Id"
+                       class="w-full flex items-center gap-3 px-4 h-9 bg-[#4d8eff] text-[#00285d] font-label-caps text-label-caps rounded hover:brightness-110 transition-all">
+                        <span class="material-symbols-outlined text-sm">edit</span>EDIT STOCK
+                    </a>
+                    <a asp-action="Delete" asp-route-id="@Model.Id"
+                       class="w-full flex items-center gap-3 px-4 h-9 border border-red-500/30 text-red-400 font-label-caps text-label-caps rounded hover:bg-red-500/10 transition-all">
+                        <span class="material-symbols-outlined text-sm">delete</span>DELETE STOCK
+                    </a>
+                    <a asp-action="Index"
+                       class="w-full flex items-center gap-3 px-4 h-9 border border-outline-variant text-outline font-label-caps text-label-caps rounded hover:bg-surface-container-highest transition-all">
+                        <span class="material-symbols-outlined text-sm">arrow_back</span>BACK TO WATCHLIST
+                    </a>
+                </div>
+            </div>
         </div>
     </div>
 </div>
