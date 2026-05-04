@@ -1,4 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using StockWatchlistApp.Data;
 using StockWatchlistApp.Models;
 using StockWatchlistApp.Services;
 
@@ -6,19 +8,19 @@ namespace StockWatchlistApp.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly WatchlistService _watchlistService;
+        private readonly ApplicationDbContext _dbContext;
         private readonly StockApiService _stockApiService;
 
-        public HomeController(WatchlistService watchlistService, StockApiService stockApiService)
+        public HomeController(ApplicationDbContext dbContext, StockApiService stockApiService)
         {
-            _watchlistService = watchlistService;
+            _dbContext = dbContext;
             _stockApiService = stockApiService;
         }
 
         public async Task<IActionResult> Index()
         {
-            // Take up to 3 stocks from the watchlist and fetch their live data
-            var stocks = _watchlistService.GetAll().Take(3).ToList();
+            // Take up to 3 stocks from the database and fetch their live data
+            var stocks = await _dbContext.WatchlistStocks.Take(3).ToListAsync();
 
             var preview = new List<(WatchlistStock Stock, StockApiData ApiData)>();
 

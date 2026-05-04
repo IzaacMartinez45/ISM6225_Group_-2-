@@ -1,4 +1,6 @@
+using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
+using StockWatchlistApp.Data;
 using StockWatchlistApp.Models;
 using StockWatchlistApp.Services;
 
@@ -6,21 +8,20 @@ namespace StockWatchlistApp.Controllers;
 
 public class WatchlistController : Controller
 {
-    private readonly WatchlistService _watchlistService;
+    private readonly ApplicationDbContext _dbContext;
     private readonly StockApiService _stockApiService;
 
     public WatchlistController(
-        WatchlistService watchlistService,
+        ApplicationDbContext dbContext,
         StockApiService stockApiService)
     {
-        _watchlistService = watchlistService;
+        _dbContext = dbContext;
         _stockApiService = stockApiService;
     }
 
-    // 🔥 UPDATED INDEX WITH API DATA
     public async Task<IActionResult> Index()
     {
-        var stocks = _watchlistService.GetAll();
+        var stocks = await _dbContext.WatchlistStocks.ToListAsync();
 
         var stockDataList = new List<(WatchlistStock Stock, StockApiData ApiData)>();
 
@@ -39,69 +40,79 @@ public class WatchlistController : Controller
     }
 
     [HttpPost]
-    public IActionResult Create(WatchlistStock stock)
+    public async Task<IActionResult> Create(WatchlistStock stock)
     {
         if (ModelState.IsValid)
         {
-            _watchlistService.Add(stock);
+            stock.Ticker = stock.Ticker.ToUpper().Trim();
+            _dbContext.WatchlistStocks.Add(stock);
+            await _dbContext.SaveChangesAsync();
             return RedirectToAction("Index");
         }
 
         return View(stock);
     }
 
-    public IActionResult Edit(int id)
+    public async Task<IActionResult> Edit(int id)
     {
-        var stock = _watchlistService.GetById(id);
+        var stock = await _dbContext.WatchlistStocks.FindAsync(id);
 
-        if (stock == null)
-        {
-            return NotFound();
-        }
+        if (stock == null) return NotFound();
 
         return View(stock);
     }
 
     [HttpPost]
-    public IActionResult Edit(WatchlistStock stock)
+    public async Task<IActionResult> Edit(WatchlistStock stock)
     {
         if (ModelState.IsValid)
         {
-            _watchlistService.Update(stock);
+            var existingStock = await _dbContext.WatchlistStocks.FindAsync(stock.Id);
+
+            if (existingStock == null) return NotFound();
+
+            existingStock.Ticker = stock.Ticker.ToUpper().Trim();
+            existingStock.CompanyName = stock.CompanyName;
+            existingStock.TargetPrice = stock.TargetPrice;
+            existingStock.Category = stock.Category;
+            existingStock.Notes = stock.Notes;
+
+            await _dbContext.SaveChangesAsync();
             return RedirectToAction("Index");
         }
 
         return View(stock);
     }
 
-    public IActionResult Details(int id)
+    public async Task<IActionResult> Details(int id)
     {
-        var stock = _watchlistService.GetById(id);
+        var stock = await _dbContext.WatchlistStocks.FindAsync(id);
 
-        if (stock == null)
-        {
-            return NotFound();
-        }
+        if (stock == null) return NotFound();
 
         return View(stock);
     }
 
-    public IActionResult Delete(int id)
+    public async Task<IActionResult> Delete(int id)
     {
-        var stock = _watchlistService.GetById(id);
+        var stock = await _dbContext.WatchlistStocks.FindAsync(id);
 
-        if (stock == null)
-        {
-            return NotFound();
-        }
+        if (stock == null) return NotFound();
 
         return View(stock);
     }
 
     [HttpPost]
-    public IActionResult DeleteConfirmed(int id)
+    public async Task<IActionResult> DeleteConfirmed(int id)
     {
-        _watchlistService.Delete(id);
+        var stock = await _dbContext.WatchlistStocks.FindAsync(id);
+
+        if (stock != null)
+        {
+            _dbContext.WatchlistStocks.Remove(stock);
+            await _dbContext.SaveChangesAsync();
+        }
+
         return RedirectToAction("Index");
     }
 }
