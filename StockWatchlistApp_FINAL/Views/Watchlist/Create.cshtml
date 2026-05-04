@@ -4,51 +4,60 @@
     ViewData["Title"] = "Add Stock";
 }
 
-<div class="card shadow-sm mt-4">
-    <div class="card-body p-4">
-        <h1 class="mb-3">Add Stock</h1>
-        <p class="text-muted">Add a stock to your personal watchlist.</p>
+<div class="row justify-content-center mt-4">
+    <div class="col-lg-6 col-md-8">
+        <div class="mb-4">
+            <h2 style="font-weight:700; letter-spacing:-0.02em;">Add Stock</h2>
+            <p class="text-muted" style="font-size:0.9rem;">Add a new stock to your watchlist.</p>
+        </div>
 
-        <form asp-action="Create" method="post">
-            <div asp-validation-summary="All" class="text-danger mb-3"></div>
-            <div class="mb-3">
-                <label asp-for="Ticker" class="form-label">Ticker Symbol</label>
-                <input asp-for="Ticker" class="form-control" placeholder="Example: AAPL" />
-                <span asp-validation-for="Ticker" class="text-danger"></span>
+        <div class="card">
+            <div class="card-body">
+                <form asp-action="Create" method="post">
+                    <div asp-validation-summary="All" class="mb-3" style="color:#ff4d6d; font-size:0.85rem;"></div>
+
+                    <div class="mb-4">
+                        <label asp-for="Ticker" class="form-label">Ticker Symbol</label>
+                        <input asp-for="Ticker" class="form-control" placeholder="e.g. AAPL" />
+                        <span asp-validation-for="Ticker" style="color:#ff4d6d; font-size:0.8rem;"></span>
+                    </div>
+
+                    <div class="mb-4">
+                        <label asp-for="CompanyName" class="form-label">Company Name</label>
+                        <input asp-for="CompanyName" class="form-control" placeholder="e.g. Apple Inc." />
+                        <span asp-validation-for="CompanyName" style="color:#ff4d6d; font-size:0.8rem;"></span>
+                    </div>
+
+                    <div class="mb-4">
+                        <label asp-for="TargetPrice" class="form-label">Target Price</label>
+                        <input asp-for="TargetPrice" class="form-control" placeholder="e.g. 220.00" />
+                        <span asp-validation-for="TargetPrice" style="color:#ff4d6d; font-size:0.8rem;"></span>
+                    </div>
+
+                    <div class="mb-4">
+                        <label asp-for="Category" class="form-label">Category</label>
+                        <select asp-for="Category" class="form-select">
+                            <option value="">Choose a category</option>
+                            <option>Long Term</option>
+                            <option>Short Term Trade</option>
+                            <option>Research</option>
+                            <option>Dividend</option>
+                            <option>High Risk</option>
+                        </select>
+                        <span asp-validation-for="Category" style="color:#ff4d6d; font-size:0.8rem;"></span>
+                    </div>
+
+                    <div class="mb-4">
+                        <label asp-for="Notes" class="form-label">Notes <span style="color:#4b5563;">(optional)</span></label>
+                        <textarea asp-for="Notes" class="form-control" rows="4" placeholder="Why are you watching this stock?"></textarea>
+                    </div>
+
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-primary">Save Stock</button>
+                        <a asp-action="Index" class="btn btn-outline-secondary">Cancel</a>
+                    </div>
+                </form>
             </div>
-
-            <div class="mb-3">
-                <label asp-for="CompanyName" class="form-label">Company Name</label>
-                <input asp-for="CompanyName" class="form-control" placeholder="Example: Apple Inc." />
-                <span asp-validation-for="CompanyName" class="text-danger"></span>
-            </div>
-
-            <div class="mb-3">
-                <label asp-for="TargetPrice" class="form-label">Target Price</label>
-                <input asp-for="TargetPrice" class="form-control" placeholder="Example: 220" />
-                <span asp-validation-for="TargetPrice" class="text-danger"></span>
-            </div>
-
-            <div class="mb-3">
-                <label asp-for="Category" class="form-label">Category</label>
-                <select asp-for="Category" class="form-select">
-                    <option value="">Choose a category</option>
-                    <option>Long Term</option>
-                    <option>Short Term Trade</option>
-                    <option>Research</option>
-                    <option>Dividend</option>
-                    <option>High Risk</option>
-                </select>
-                <span asp-validation-for="Category" class="text-danger"></span>
-            </div>
-
-            <div class="mb-3">
-                <label asp-for="Notes" class="form-label">Notes</label>
-                <textarea asp-for="Notes" class="form-control" rows="4" placeholder="Why are you watching this stock?"></textarea>
-            </div>
-
-            <button type="submit" class="btn btn-primary">Save Stock</button>
-            <a asp-action="Index" class="btn btn-outline-secondary">Cancel</a>
-        </form>
+        </div>
     </div>
 </div>

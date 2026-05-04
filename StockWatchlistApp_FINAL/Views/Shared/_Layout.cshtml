@@ -3,25 +3,28 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Stock Portfolio Tracker</title>
+    <title>@ViewData["Title"] - StockTracker</title>
     <script type="importmap"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/BusinessNewsApp.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/StockWatchlistApp.styles.css" asp-append-version="true" />
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+        <nav class="navbar navbar-expand-sm">
             <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
-                    Stock Tracker
+                <a class="navbar-brand" asp-controller="Home" asp-action="Index">
+                    📈 Stock<span>Tracker</span>
                 </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse"
+                        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-end">
-                    <ul class="navbar-nav">
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between align-items-center w-100">
+                    <ul class="navbar-nav mx-auto">
                         <li class="nav-item">
                             <a class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Home" && ViewContext.RouteData.Values["action"]?.ToString() == "Index" ? "active" : "")"
                                asp-controller="Home" asp-action="Index">Home</a>
@@ -34,9 +37,10 @@
                             <a class="nav-link @(ViewContext.RouteData.Values["action"]?.ToString() == "AboutUs" ? "active" : "")"
                                asp-controller="Home" asp-action="AboutUs">About Us</a>
                         </li>
+                    </ul>
+                    <ul class="navbar-nav">
                         <li class="nav-item">
-                            <a class="nav-link @(ViewContext.RouteData.Values["action"]?.ToString() == "Privacy" ? "active" : "")"
-                               asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            <a class="nav-link btn-nav-cta" asp-controller="Watchlist" asp-action="Create">+ Add Stock</a>
                         </li>
                     </ul>
                 </div>
@@ -45,16 +49,17 @@
     </header>
 
     <div class="container">
-        <main role="main" class="pb-3 pt-3">
+        <main role="main" class="pb-5 pt-2">
             @RenderBody()
         </main>
     </div>
 
-    <footer class="bg-dark text-muted text-center py-3 mt-auto">
-        <div class="container">
-            <small>&copy; 2026 ISM6225 Group 2 &mdash; Stock Portfolio Tracker</small>
+    <footer>
+        <div class="container text-center">
+            <small>&copy; 2026 ISM6225 Group 2 &mdash; StockTracker</small>
         </div>
     </footer>
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>

@@ -3,45 +3,45 @@
 }
 
 <div class="hero-section">
-    <h1>📈 Stock Watchlist Tracker</h1>
-    <p>Monitor your favorite stocks, set target prices, and track live market data — all in one place.</p>
-    <div class="mt-4">
-        <a class="btn btn-light btn-lg fw-semibold me-2" asp-controller="Watchlist" asp-action="Index">
-            Go to My Watchlist →
+    <h1>Track Stocks.<br /><span>Stay Ahead.</span></h1>
+    <p>Monitor your watchlist, set target prices, and compare them against live market data — all in one clean dashboard.</p>
+    <div class="mt-4 d-flex gap-3 flex-wrap">
+        <a class="btn btn-primary btn-lg" asp-controller="Watchlist" asp-action="Index">
+            View Watchlist →
         </a>
-        <a class="btn btn-outline-light btn-lg" asp-controller="Home" asp-action="AboutUs">
-            About Us
+        <a class="btn btn-outline-light btn-lg" asp-controller="Watchlist" asp-action="Create">
+            + Add Stock
         </a>
     </div>
 </div>
 
-<div class="row text-center mt-5">
-    <div class="col-md-3 mb-3">
-        <div class="card p-4 h-100 shadow-sm">
-            <div style="font-size:2.5rem">📋</div>
-            <h5 class="fw-semibold mt-2">Add Stocks</h5>
-            <p class="text-muted small">Add stock symbols like AAPL or TSLA and set your target price.</p>
+<div class="row mt-4 g-3">
+    <div class="col-md-3 col-sm-6">
+        <div class="feature-card">
+            <div class="icon">📋</div>
+            <h5>Add Stocks</h5>
+            <p>Add any ticker symbol like AAPL or TSLA and set your personal target price.</p>
         </div>
     </div>
-    <div class="col-md-3 mb-3">
-        <div class="card p-4 h-100 shadow-sm">
-            <div style="font-size:2.5rem">📡</div>
-            <h5 class="fw-semibold mt-2">Live Prices</h5>
-            <p class="text-muted small">Current closing prices are pulled from the Polygon.io API.</p>
+    <div class="col-md-3 col-sm-6">
+        <div class="feature-card">
+            <div class="icon">📡</div>
+            <h5>Live Market Data</h5>
+            <p>Previous day close, high, low, and volume pulled live from the Polygon.io API.</p>
         </div>
     </div>
-    <div class="col-md-3 mb-3">
-        <div class="card p-4 h-100 shadow-sm">
-            <div style="font-size:2.5rem">🎯</div>
-            <h5 class="fw-semibold mt-2">Price Difference</h5>
-            <p class="text-muted small">The app calculates the difference between current and target price.</p>
+    <div class="col-md-3 col-sm-6">
+        <div class="feature-card">
+            <div class="icon">🎯</div>
+            <h5>Price Targets</h5>
+            <p>See exactly how far the current price is from your target — green or red.</p>
         </div>
     </div>
-    <div class="col-md-3 mb-3">
-        <div class="card p-4 h-100 shadow-sm">
-            <div style="font-size:2.5rem">✏️</div>
-            <h5 class="fw-semibold mt-2">Full CRUD</h5>
-            <p class="text-muted small">You can create, view, edit, and delete stocks from your list.</p>
+    <div class="col-md-3 col-sm-6">
+        <div class="feature-card">
+            <div class="icon">✏️</div>
+            <h5>Full CRUD</h5>
+            <p>Create, view, edit, and delete stocks from your watchlist at any time.</p>
         </div>
     </div>
 </div>

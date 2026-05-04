@@ -4,29 +4,43 @@
     ViewData["Title"] = "Stock Details";
 }
 
-<div class="card shadow-sm mt-4">
-    <div class="card-body p-4">
-        <h1>@Model.Ticker Details</h1>
-        <p class="text-muted">View saved stock information.</p>
+<div class="row justify-content-center mt-4">
+    <div class="col-lg-6 col-md-8">
+        <div class="mb-4">
+            <h2 style="font-weight:700; letter-spacing:-0.02em;">
+                <span class="ticker-badge me-2">@Model.Ticker</span> Details
+            </h2>
+            <p class="text-muted" style="font-size:0.9rem;">Saved stock information.</p>
+        </div>
 
-        <dl class="row">
-            <dt class="col-sm-3">Ticker</dt>
-            <dd class="col-sm-9">@Model.Ticker</dd>
+        <div class="card">
+            <div class="card-body">
+                <dl class="row mb-0">
+                    <dt class="col-sm-4">Ticker</dt>
+                    <dd class="col-sm-8"><span class="ticker-badge">@Model.Ticker</span></dd>
 
-            <dt class="col-sm-3">Company</dt>
-            <dd class="col-sm-9">@Model.CompanyName</dd>
+                    <dt class="col-sm-4">Company</dt>
+                    <dd class="col-sm-8">@Model.CompanyName</dd>
 
-            <dt class="col-sm-3">Target Price</dt>
-            <dd class="col-sm-9">$@Model.TargetPrice</dd>
+                    <dt class="col-sm-4">Target Price</dt>
+                    <dd class="col-sm-8" style="color:#00d4aa; font-weight:600;">$@Model.TargetPrice</dd>
 
-            <dt class="col-sm-3">Category</dt>
-            <dd class="col-sm-9">@Model.Category</dd>
+                    <dt class="col-sm-4">Category</dt>
+                    <dd class="col-sm-8">
+                        <span style="background:rgba(96,165,250,0.1); color:#60a5fa; padding:3px 10px; border-radius:20px; font-size:0.78rem; font-weight:500;">
+                            @Model.Category
+                        </span>
+                    </dd>
 
-            <dt class="col-sm-3">Notes</dt>
-            <dd class="col-sm-9">@Model.Notes</dd>
-        </dl>
+                    <dt class="col-sm-4">Notes</dt>
+                    <dd class="col-sm-8" style="color:#9ca3af;">@(string.IsNullOrEmpty(Model.Notes) ? "—" : Model.Notes)</dd>
+                </dl>
+            </div>
+        </div>
 
-        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">Edit</a>
-        <a asp-action="Index" class="btn btn-outline-secondary">Back</a>
+        <div class="d-flex gap-2 mt-3">
+            <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">✏️ Edit</a>
+            <a asp-action="Index" class="btn btn-outline-secondary">← Back to Watchlist</a>
+        </div>
     </div>
 </div>

@@ -1,104 +1,113 @@
 @model List<(StockWatchlistApp.Models.WatchlistStock Stock, StockWatchlistApp.Models.StockApiData ApiData)>
 
 @{
-    ViewData["Title"] = "Stock Watchlist";
+    ViewData["Title"] = "Watchlist";
 }
 
-<div class="hero-section">
-    <h1>Stock Watchlist Tracker</h1>
-    <p>Track stocks, target prices, research notes, and live market data in one place.</p>
-    <a class="btn btn-primary" asp-action="Create">Add Stock</a>
+<div class="d-flex align-items-center justify-content-between mt-4 mb-4">
+    <div>
+        <h2 class="fw-700 mb-1" style="font-weight:700; letter-spacing:-0.02em;">My Watchlist</h2>
+        <p class="text-muted mb-0" style="font-size:0.9rem;">Track your stocks and monitor live market data.</p>
+    </div>
+    <a class="btn btn-primary" asp-action="Create">+ Add Stock</a>
 </div>
 
-<div class="card shadow-sm mt-4">
-    <div class="card-body">
-        <h3>Your Watchlist</h3>
+<div class="card">
+    <div class="card-body p-0">
 
         @if (!Model.Any())
         {
-            <div class="text-center py-5">
-                <div style="font-size:3rem">📭</div>
-                <h5 class="mt-3 text-muted">Your watchlist is empty</h5>
-                <p class="text-muted">Start by adding a stock you want to track.</p>
+            <div class="text-center py-5 px-4">
+                <div style="font-size:3rem; margin-bottom:16px;">📭</div>
+                <h5 style="color:#e8eaf0;">Your watchlist is empty</h5>
+                <p class="text-muted" style="font-size:0.9rem;">Add a stock to start tracking prices and targets.</p>
                 <a class="btn btn-primary mt-2" asp-action="Create">+ Add Your First Stock</a>
             </div>
         }
         else
         {
-            <table class="table table-hover align-middle">
-                <thead>
-                    <tr>
-                        <th>Ticker</th>
-                        <th>Company</th>
-                        <th>Target</th>
-                        <th>Prev Close</th>
-                        <th>Diff</th>
-                        <th>High</th>
-                        <th>Low</th>
-                        <th>Volume</th>
-                        <th></th>
-                    </tr>
-                </thead>
-
-                <tbody>
-                    @foreach (var item in Model)
-                    {
-                        var stock = item.Stock;
-                        var api = item.ApiData;
-
+            <div class="table-responsive">
+                <table class="table table-hover mb-0">
+                    <thead>
                         <tr>
-                            <td>
-                                <span class="ticker-badge">@stock.Ticker</span>
+                            <th>Ticker</th>
+                            <th>Company</th>
+                            <th>Category</th>
+                            <th>Target</th>
+                            <th>Prev Close</th>
+                            <th>Diff</th>
+                            <th>High</th>
+                            <th>Low</th>
+                            <th>Volume</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            var stock = item.Stock;
+                            var api = item.ApiData;
+
+                            <tr>
+                                <td>
+                                    <span class="ticker-badge">@stock.Ticker</span>
+                                    @if (api.IsAvailable)
+                                    {
+                                        <span class="badge bg-success ms-2">Live</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-secondary ms-2">No Data</span>
+                                    }
+                                </td>
+
+                                <td style="color:#9ca3af;">@stock.CompanyName</td>
+
+                                <td>
+                                    <span style="background:rgba(96,165,250,0.1); color:#60a5fa; padding:3px 10px; border-radius:20px; font-size:0.78rem; font-weight:500;">
+                                        @stock.Category
+                                    </span>
+                                </td>
+
+                                <td style="color:#e8eaf0; font-weight:500;">$@stock.TargetPrice</td>
 
                                 @if (api.IsAvailable)
                                 {
-                                    <span class="badge bg-success ms-2">Live</span>
+                                    var aboveTarget = api.PreviousClose >= stock.TargetPrice;
+                                    var diff = api.PreviousClose - stock.TargetPrice;
+                                    var arrow = diff >= 0 ? "▲" : "▼";
+
+                                    <td>
+                                        <span style="color:@(aboveTarget ? "#00d4aa" : "#ff4d6d"); font-weight:600;">
+                                            $@api.PreviousClose
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span style="color:@(diff >= 0 ? "#00d4aa" : "#ff4d6d"); font-weight:600;">
+                                            @arrow @Math.Abs(diff).ToString("C")
+                                        </span>
+                                    </td>
+                                    <td style="color:#9ca3af;">$@api.High</td>
+                                    <td style="color:#9ca3af;">$@api.Low</td>
+                                    <td style="color:#9ca3af;">@api.Volume.ToString("N0")</td>
                                 }
                                 else
                                 {
-                                    <span class="badge bg-secondary ms-2">No Data</span>
+                                    <td colspan="5" style="color:#4b5563; font-size:0.85rem;">No market data available</td>
                                 }
-                            </td>
-
-                            <td>@stock.CompanyName</td>
-                            <td>$@stock.TargetPrice</td>
-
-                            @if (api.IsAvailable)
-                            {
-                                var priceColor = api.PreviousClose >= stock.TargetPrice ? "text-success" : "text-danger";
-                                var diff = api.PreviousClose - stock.TargetPrice;
-                                var diffColor = diff >= 0 ? "text-success" : "text-danger";
 
                                 <td>
-                                    <span class="@priceColor fw-bold">
-                                        $@api.PreviousClose
-                                    </span>
+                                    <div class="btn-group btn-group-sm">
+                                        <a class="btn btn-outline-secondary" asp-action="Details" asp-route-id="@stock.Id" title="Details">👁</a>
+                                        <a class="btn btn-outline-primary" asp-action="Edit" asp-route-id="@stock.Id" title="Edit">✏️</a>
+                                        <a class="btn btn-outline-danger" asp-action="Delete" asp-route-id="@stock.Id" title="Delete">🗑</a>
+                                    </div>
                                 </td>
-
-                                <td>
-                                    <span class="@diffColor fw-bold">
-                                        @diff.ToString("C")
-                                    </span>
-                                </td>
-
-                                <td>$@api.High</td>
-                                <td>$@api.Low</td>
-                                <td>@api.Volume.ToString("N0")</td>
-                            }
-                            else
-                            {
-                                <td colspan="5" class="text-muted">No API data</td>
-                            }
-
-                            <td>
-                                <a class="btn btn-sm btn-outline-primary" asp-action="Details" asp-route-id="@stock.Id">Details</a>
-                                <a class="btn btn-sm btn-outline-secondary" asp-action="Edit" asp-route-id="@stock.Id">Edit</a>
-                                <a class="btn btn-sm btn-outline-danger" asp-action="Delete" asp-route-id="@stock.Id">Delete</a>
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
         }
     </div>
 </div>

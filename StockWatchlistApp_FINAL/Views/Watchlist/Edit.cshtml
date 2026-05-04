@@ -4,47 +4,55 @@
     ViewData["Title"] = "Edit Stock";
 }
 
-<div class="card shadow-sm mt-4">
-    <div class="card-body p-4">
-        <h1>Edit Stock</h1>
-        <p class="text-muted">Update your saved stock information.</p>
+<div class="row justify-content-center mt-4">
+    <div class="col-lg-6 col-md-8">
+        <div class="mb-4">
+            <h2 style="font-weight:700; letter-spacing:-0.02em;">Edit Stock</h2>
+            <p class="text-muted" style="font-size:0.9rem;">Update your saved stock information.</p>
+        </div>
 
-        <form asp-action="Edit" method="post">
-            <input type="hidden" asp-for="Id" />
+        <div class="card">
+            <div class="card-body">
+                <form asp-action="Edit" method="post">
+                    <input type="hidden" asp-for="Id" />
 
-            <div class="mb-3">
-                <label asp-for="Ticker" class="form-label">Ticker Symbol</label>
-                <input asp-for="Ticker" class="form-control" />
+                    <div class="mb-4">
+                        <label asp-for="Ticker" class="form-label">Ticker Symbol</label>
+                        <input asp-for="Ticker" class="form-control" />
+                    </div>
+
+                    <div class="mb-4">
+                        <label asp-for="CompanyName" class="form-label">Company Name</label>
+                        <input asp-for="CompanyName" class="form-control" />
+                    </div>
+
+                    <div class="mb-4">
+                        <label asp-for="TargetPrice" class="form-label">Target Price</label>
+                        <input asp-for="TargetPrice" class="form-control" />
+                    </div>
+
+                    <div class="mb-4">
+                        <label asp-for="Category" class="form-label">Category</label>
+                        <select asp-for="Category" class="form-select">
+                            <option>Long Term</option>
+                            <option>Short Term Trade</option>
+                            <option>Research</option>
+                            <option>Dividend</option>
+                            <option>High Risk</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-4">
+                        <label asp-for="Notes" class="form-label">Notes <span style="color:#4b5563;">(optional)</span></label>
+                        <textarea asp-for="Notes" class="form-control" rows="4"></textarea>
+                    </div>
+
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                        <a asp-action="Index" class="btn btn-outline-secondary">Cancel</a>
+                    </div>
+                </form>
             </div>
-
-            <div class="mb-3">
-                <label asp-for="CompanyName" class="form-label">Company Name</label>
-                <input asp-for="CompanyName" class="form-control" />
-            </div>
-
-            <div class="mb-3">
-                <label asp-for="TargetPrice" class="form-label">Target Price</label>
-                <input asp-for="TargetPrice" class="form-control" />
-            </div>
-
-            <div class="mb-3">
-                <label asp-for="Category" class="form-label">Category</label>
-                <select asp-for="Category" class="form-select">
-                    <option>Long Term</option>
-                    <option>Short Term Trade</option>
-                    <option>Research</option>
-                    <option>Dividend</option>
-                    <option>High Risk</option>
-                </select>
-            </div>
-
-            <div class="mb-3">
-                <label asp-for="Notes" class="form-label">Notes</label>
-                <textarea asp-for="Notes" class="form-control" rows="4"></textarea>
-            </div>
-
-            <button type="submit" class="btn btn-primary">Save Changes</button>
-            <a asp-action="Index" class="btn btn-outline-secondary">Cancel</a>
-        </form>
+        </div>
     </div>
 </div>
