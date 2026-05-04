@@ -1,4 +1,6 @@
-﻿@{
+﻿@model List<(StockWatchlistApp.Models.WatchlistStock Stock, StockWatchlistApp.Models.StockApiData ApiData)>
+
+@{
     ViewData["Title"] = "Dashboard";
 }
 
@@ -19,7 +21,6 @@
             </a>
         </div>
     </div>
-    <!-- Background ornament -->
     <div class="absolute right-0 top-0 w-1/2 h-full opacity-20 pointer-events-none">
         <div class="absolute inset-0 bg-gradient-to-l from-blue-500/20 to-transparent"></div>
         <svg class="absolute right-0 top-0 h-full w-full" viewBox="0 0 400 400">
@@ -31,8 +32,8 @@
 <!-- Feature Bento Grid -->
 <section class="grid grid-cols-12 gap-gutter mt-stack-lg">
 
-    <!-- Live Market Data -->
-    <div class="col-span-12 lg:col-span-7 bg-surface-container border border-outline-variant rounded-xl p-stack-md flex flex-col justify-between group cursor-pointer hover:border-[#4d8eff] transition-all">
+    <!-- Live Market Data — now powered by real watchlist data -->
+    <div class="col-span-12 lg:col-span-7 bg-surface-container border border-outline-variant rounded-xl p-stack-md flex flex-col justify-between hover:border-[#4d8eff] transition-all">
         <div>
             <div class="flex justify-between items-start mb-4">
                 <span class="material-symbols-outlined text-blue-400 p-2 bg-blue-500/10 rounded-lg">monitoring</span>
@@ -43,26 +44,55 @@
             <h3 class="font-headline-md text-headline-md text-slate-50 mb-2">Live Market Data</h3>
             <p class="text-slate-400 text-body-sm max-w-sm">Previous day close, high, low, and volume pulled directly from the Polygon.io API for every stock in your watchlist.</p>
         </div>
-        <div class="mt-8 border-t border-slate-800 pt-4 flex gap-4">
-            <div class="flex-1 bg-slate-950 rounded p-3 border border-slate-800">
-                <div class="flex justify-between items-center mb-2">
-                    <span class="font-label-caps text-[10px] text-slate-500">$AAPL</span>
-                    <span class="text-emerald-400 text-[10px]">+1.24%</span>
-                </div>
-                <div class="h-8 w-full bg-emerald-400/5 border-b border-emerald-400/20"></div>
-            </div>
-            <div class="flex-1 bg-slate-950 rounded p-3 border border-slate-800">
-                <div class="flex justify-between items-center mb-2">
-                    <span class="font-label-caps text-[10px] text-slate-500">$TSLA</span>
-                    <span class="text-red-400 text-[10px]">-2.11%</span>
-                </div>
-                <div class="h-8 w-full bg-red-400/5 border-b border-red-400/20"></div>
-            </div>
+
+        <div class="mt-8 border-t border-slate-800 pt-4 flex gap-3 flex-wrap">
+            @if (!Model.Any())
+            {
+                <p class="text-[11px] text-slate-600 uppercase tracking-widest">
+                    Add stocks to your watchlist to see live data here.
+                    <a asp-controller="Watchlist" asp-action="Create" class="text-blue-500 hover:text-blue-400 ml-1">Add Stock →</a>
+                </p>
+            }
+            else
+            {
+                @foreach (var item in Model)
+                {
+                    var stock = item.Stock;
+                    var api = item.ApiData;
+                    var diff = api.IsAvailable ? api.PreviousClose - stock.TargetPrice : 0;
+                    var isUp = diff >= 0;
+
+                    <div class="flex-1 min-w-[120px] bg-slate-950 rounded p-3 border border-slate-800">
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="font-label-caps text-[10px] text-slate-400 font-bold">$@stock.Ticker</span>
+                            @if (api.IsAvailable)
+                            {
+                                <span class="text-[10px] font-bold @(isUp ? "text-emerald-400" : "text-red-400")">
+                                    @(isUp ? "▲" : "▼") $@api.PreviousClose
+                                </span>
+                            }
+                            else
+                            {
+                                <span class="text-[10px] text-slate-600">NO DATA</span>
+                            }
+                        </div>
+                        <div class="h-1.5 w-full bg-slate-800 rounded-full overflow-hidden">
+                            @if (api.IsAvailable)
+                            {
+                                <div class="h-full @(isUp ? "bg-emerald-400/50" : "bg-red-400/50") @(isUp ? "w-3/4" : "w-1/4") rounded-full"></div>
+                            }
+                        </div>
+                        <div class="mt-1.5 text-[9px] text-slate-600 uppercase tracking-wider">
+                            Target: $@stock.TargetPrice
+                        </div>
+                    </div>
+                }
+            }
         </div>
     </div>
 
     <!-- Add Stocks -->
-    <div class="col-span-12 lg:col-span-5 bg-surface-container border border-outline-variant rounded-xl p-stack-md flex flex-col group cursor-pointer hover:border-[#4d8eff] transition-all">
+    <div class="col-span-12 lg:col-span-5 bg-surface-container border border-outline-variant rounded-xl p-stack-md flex flex-col hover:border-[#4d8eff] transition-all">
         <span class="material-symbols-outlined text-blue-400 p-2 bg-blue-500/10 rounded-lg self-start mb-4">add_circle</span>
         <h3 class="font-headline-md text-headline-md text-slate-50 mb-2">Add Stocks</h3>
         <p class="text-slate-400 text-body-sm mb-6">Add any ticker symbol to your personal watchlist with a target price, category, and investment notes.</p>
@@ -74,7 +104,7 @@
     </div>
 
     <!-- Price Targets -->
-    <div class="col-span-12 lg:col-span-5 bg-surface-container border border-outline-variant rounded-xl p-stack-md group cursor-pointer hover:border-[#4d8eff] transition-all">
+    <div class="col-span-12 lg:col-span-5 bg-surface-container border border-outline-variant rounded-xl p-stack-md hover:border-[#4d8eff] transition-all">
         <span class="material-symbols-outlined text-blue-400 p-2 bg-blue-500/10 rounded-lg mb-4">ads_click</span>
         <h3 class="font-headline-md text-headline-md text-slate-50 mb-2">Price Targets</h3>
         <p class="text-slate-400 text-body-sm mb-6">Set your entry and exit targets. The app calculates the difference between your target and the live previous close — green if above, red if below.</p>
@@ -97,7 +127,7 @@
     </div>
 
     <!-- Full CRUD -->
-    <div class="col-span-12 lg:col-span-7 bg-surface-container border border-outline-variant rounded-xl p-stack-md flex gap-6 group cursor-pointer hover:border-[#4d8eff] transition-all">
+    <div class="col-span-12 lg:col-span-7 bg-surface-container border border-outline-variant rounded-xl p-stack-md flex gap-6 hover:border-[#4d8eff] transition-all">
         <div class="flex-1">
             <span class="material-symbols-outlined text-blue-400 p-2 bg-blue-500/10 rounded-lg mb-4">database</span>
             <h3 class="font-headline-md text-headline-md text-slate-50 mb-2">Full CRUD Control</h3>
@@ -105,12 +135,12 @@
         </div>
         <div class="w-48 bg-slate-950 rounded border border-slate-800 p-3 space-y-2 flex flex-col justify-center">
             <a asp-controller="Watchlist" asp-action="Create"
-               class="flex items-center gap-2 py-1 px-2 hover:bg-slate-900 rounded cursor-pointer transition-colors">
+               class="flex items-center gap-2 py-1 px-2 hover:bg-slate-900 rounded transition-colors">
                 <span class="material-symbols-outlined text-xs text-blue-400">add</span>
                 <span class="text-[10px] text-slate-400 font-medium">Add Stock</span>
             </a>
             <a asp-controller="Watchlist" asp-action="Index"
-               class="flex items-center gap-2 py-1 px-2 hover:bg-slate-900 rounded cursor-pointer transition-colors">
+               class="flex items-center gap-2 py-1 px-2 hover:bg-slate-900 rounded transition-colors">
                 <span class="material-symbols-outlined text-xs text-blue-400">edit</span>
                 <span class="text-[10px] text-slate-400 font-medium">Edit Stocks</span>
             </a>
@@ -135,16 +165,51 @@
                 <th class="px-6 py-3 font-medium">SYMBOL</th>
                 <th class="px-6 py-3 font-medium">COMPANY</th>
                 <th class="px-6 py-3 font-medium text-right">TARGET</th>
-                <th class="px-6 py-3 font-medium text-right">CATEGORY</th>
+                <th class="px-6 py-3 font-medium text-right">PREV CLOSE</th>
+                <th class="px-6 py-3 font-medium text-right">DIFF</th>
             </tr>
         </thead>
-        <tbody>
-            <tr class="border-t border-slate-800 text-slate-500 text-center">
-                <td colspan="4" class="px-6 py-8 text-[11px] uppercase tracking-widest">
-                    Add stocks to your watchlist to see them here →
-                    <a asp-controller="Watchlist" asp-action="Create" class="text-blue-500 hover:text-blue-400 ml-2">Add Stock</a>
-                </td>
-            </tr>
+        <tbody class="divide-y divide-slate-800">
+            @if (!Model.Any())
+            {
+                <tr>
+                    <td colspan="5" class="px-6 py-8 text-[11px] text-slate-600 uppercase tracking-widest text-center">
+                        Add stocks to your watchlist to see them here →
+                        <a asp-controller="Watchlist" asp-action="Create" class="text-blue-500 hover:text-blue-400 ml-2">Add Stock</a>
+                    </td>
+                </tr>
+            }
+            else
+            {
+                @foreach (var item in Model)
+                {
+                    var stock = item.Stock;
+                    var api = item.ApiData;
+
+                    <tr class="hover:bg-slate-800/30 transition-colors">
+                        <td class="px-6 py-3">
+                            <span class="bg-slate-800 text-slate-100 font-bold px-1.5 py-0.5 rounded text-[11px]">@stock.Ticker</span>
+                        </td>
+                        <td class="px-6 py-3 text-slate-400">@stock.CompanyName</td>
+                        <td class="px-6 py-3 text-right text-slate-200">$@stock.TargetPrice</td>
+                        @if (api.IsAvailable)
+                        {
+                            var diff = api.PreviousClose - stock.TargetPrice;
+                            var isUp = diff >= 0;
+                            <td class="px-6 py-3 text-right @(isUp ? "text-emerald-400" : "text-red-400") font-bold">
+                                $@api.PreviousClose
+                            </td>
+                            <td class="px-6 py-3 text-right @(isUp ? "text-emerald-400" : "text-red-400") font-bold">
+                                @(isUp ? "▲" : "▼") @Math.Abs(diff).ToString("C")
+                            </td>
+                        }
+                        else
+                        {
+                            <td colspan="2" class="px-6 py-3 text-right text-slate-600 text-[11px]">No data</td>
+                        }
+                    </tr>
+                }
+            }
         </tbody>
     </table>
 </section>
