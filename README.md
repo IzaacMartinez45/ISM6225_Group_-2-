@@ -1,8 +1,8 @@
-# ISM6225_Group_-2-
+# ISM6225 Group 2
 
-## StockWatchlistApp_FINAL Setup
+## Stock Watchlist Application
 
-`StockWatchlistApp_FINAL` is an ASP.NET MVC Stock Watchlist app. It supports full CRUD operations (Create, Read, Update, Delete) for watchlist stocks and uses SQLite with Entity Framework Core for persistent storage.
+`Stock Watchlist Application` is an ASP.NET MVC Stock Watchlist app. It supports full CRUD operations (Create, Read, Update, Delete) for watchlist stocks and uses SQLite with Entity Framework Core for persistent storage.
 
 ### Database Persistence
 
