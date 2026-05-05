@@ -32,7 +32,7 @@
 <!-- Feature Bento Grid -->
 <section class="grid grid-cols-12 gap-gutter mt-stack-lg">
 
-    <!-- Live Market Data — now powered by real watchlist data -->
+    <!-- Live Market Data -->
     <div class="col-span-12 lg:col-span-7 bg-surface-container border border-outline-variant rounded-xl p-stack-md flex flex-col justify-between hover:border-[#4d8eff] transition-all">
         <div>
             <div class="flex justify-between items-start mb-4">
@@ -68,7 +68,7 @@
                             @if (api.IsAvailable)
                             {
                                 <span class="text-[10px] font-bold @(isUp ? "text-emerald-400" : "text-red-400")">
-                                    @(isUp ? "▲" : "▼") $@api.PreviousClose
+                                    @(isUp ? "▲" : "▼") $@($"{api.PreviousClose:0.00}")
                                 </span>
                             }
                             else
@@ -83,7 +83,7 @@
                             }
                         </div>
                         <div class="mt-1.5 text-[9px] text-slate-600 uppercase tracking-wider">
-                            Target: $@stock.TargetPrice
+                            Target: $@($"{stock.TargetPrice:0.00}")
                         </div>
                     </div>
                 }
@@ -191,16 +191,17 @@
                             <span class="bg-slate-800 text-slate-100 font-bold px-1.5 py-0.5 rounded text-[11px]">@stock.Ticker</span>
                         </td>
                         <td class="px-6 py-3 text-slate-400">@stock.CompanyName</td>
-                        <td class="px-6 py-3 text-right text-slate-200">$@stock.TargetPrice</td>
+                        <td class="px-6 py-3 text-right text-slate-200">$@($"{stock.TargetPrice:0.00}")</td>
                         @if (api.IsAvailable)
                         {
                             var diff = api.PreviousClose - stock.TargetPrice;
                             var isUp = diff >= 0;
+
                             <td class="px-6 py-3 text-right @(isUp ? "text-emerald-400" : "text-red-400") font-bold">
-                                $@api.PreviousClose
+                                $@($"{api.PreviousClose:0.00}")
                             </td>
                             <td class="px-6 py-3 text-right @(isUp ? "text-emerald-400" : "text-red-400") font-bold">
-                                @(isUp ? "▲" : "▼") @Math.Abs(diff).ToString("C")
+                                @(isUp ? "▲" : "▼") $@($"{Math.Abs(diff):0.00}")
                             </td>
                         }
                         else
