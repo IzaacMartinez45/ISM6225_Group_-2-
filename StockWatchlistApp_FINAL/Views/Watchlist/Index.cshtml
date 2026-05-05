@@ -51,6 +51,7 @@ else
                         <th class="text-center px-4 py-3 font-label-caps text-label-caps text-on-surface-variant uppercase tracking-widest">Actions</th>
                     </tr>
                 </thead>
+
                 <tbody class="divide-y divide-outline-variant">
                     @foreach (var item in Model)
                     {
@@ -61,6 +62,7 @@ else
                             <td class="px-4 py-2.5">
                                 <div class="flex items-center gap-2">
                                     <span class="bg-slate-800 text-slate-100 font-bold px-1.5 py-0.5 rounded text-[11px]">@stock.Ticker</span>
+
                                     @if (api.IsAvailable)
                                     {
                                         <span class="text-[9px] font-bold text-emerald-400 bg-emerald-400/10 px-1.5 py-0.5 rounded">LIVE</span>
@@ -71,28 +73,31 @@ else
                                     }
                                 </div>
                             </td>
+
                             <td class="px-4 py-2.5 text-data-tabular font-data-tabular text-on-surface">@stock.CompanyName</td>
                             <td class="px-4 py-2.5 text-data-tabular font-data-tabular text-slate-400">@stock.Category</td>
-                            <td class="px-4 py-2.5 text-right text-data-tabular font-data-tabular text-on-surface">$@stock.TargetPrice</td>
+                            <td class="px-4 py-2.5 text-right text-data-tabular font-data-tabular text-on-surface">$@($"{stock.TargetPrice:0.00}")</td>
 
                             @if (api.IsAvailable)
                             {
-                                var aboveTarget = api.PreviousClose >= stock.TargetPrice;
                                 var diff = api.PreviousClose - stock.TargetPrice;
-                                var arrow = diff >= 0 ? "arrow_drop_up" : "arrow_drop_down";
+                                var aboveTarget = diff >= 0;
+                                var arrow = diff >= 0 ? "▲" : "▼";
                                 var colorClass = diff >= 0 ? "stock-up" : "stock-down";
 
                                 <td class="px-4 py-2.5 text-right text-data-tabular font-data-tabular @(aboveTarget ? "stock-up" : "stock-down")">
-                                    $@api.PreviousClose
+                                    $@($"{api.PreviousClose:0.00}")
                                 </td>
+
                                 <td class="px-4 py-2.5 text-right text-data-tabular font-data-tabular @colorClass">
                                     <div class="flex items-center justify-end gap-1">
-                                        <span class="material-symbols-outlined text-sm">@arrow</span>
-                                        @Math.Abs(diff).ToString("C")
+                                        <span>@arrow</span>
+                                        <span>$@($"{Math.Abs(diff):0.00}")</span>
                                     </div>
                                 </td>
-                                <td class="px-4 py-2.5 text-right text-data-tabular font-data-tabular text-on-surface">$@api.High</td>
-                                <td class="px-4 py-2.5 text-right text-data-tabular font-data-tabular text-on-surface">$@api.Low</td>
+
+                                <td class="px-4 py-2.5 text-right text-data-tabular font-data-tabular text-on-surface">$@($"{api.High:0.00}")</td>
+                                <td class="px-4 py-2.5 text-right text-data-tabular font-data-tabular text-on-surface">$@($"{api.Low:0.00}")</td>
                                 <td class="px-4 py-2.5 text-right text-data-tabular font-data-tabular text-slate-400">@api.Volume.ToString("N0")</td>
                             }
                             else
@@ -106,10 +111,12 @@ else
                                        class="p-1 text-slate-400 hover:text-blue-400 transition-colors" title="Details">
                                         <span class="material-symbols-outlined" style="font-size:18px;">visibility</span>
                                     </a>
+
                                     <a asp-action="Edit" asp-route-id="@stock.Id"
                                        class="p-1 text-slate-400 hover:text-blue-400 transition-colors" title="Edit">
                                         <span class="material-symbols-outlined" style="font-size:18px;">edit</span>
                                     </a>
+
                                     <a asp-action="Delete" asp-route-id="@stock.Id"
                                        class="p-1 text-slate-400 hover:text-red-400 transition-colors" title="Delete">
                                         <span class="material-symbols-outlined" style="font-size:18px;">delete</span>
@@ -121,6 +128,7 @@ else
                 </tbody>
             </table>
         </div>
+
         <div class="flex items-center justify-between px-6 py-3 bg-surface-container-high text-on-surface-variant border-t border-outline-variant">
             <div class="text-label-caps font-label-caps">@Model.Count stock(s) in watchlist</div>
         </div>
